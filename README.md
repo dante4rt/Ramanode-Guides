@@ -6,5 +6,6 @@ My commitment to the blockchain space is demonstrated by my support for projects
 
 Known for being a dedicated web3 enthusiast, I have engaged with numerous testnets and blockchain nodes over the past two years, exploring platforms like Sei, Sui, Aptos, and others. This hands-on experience in web3, coupled with my career as a software engineer, positions me as a trusted and innovative figure in the blockchain community.
 
-My channel on Telegram (Airdrop, node, testnet, and others) : <br>
-https://t.me/HappyCuanAirdrop
+## Where to Find Me?
+
+I am mostly active on my Telegram channel, where I share everything about crypto, such as airdrops, testnets, and more. Check it out here: https://t.me/HappyCuanAirdrop
