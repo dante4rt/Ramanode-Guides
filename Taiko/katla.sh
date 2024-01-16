@@ -12,7 +12,7 @@ git config --global user.name "$git_name" > /dev/null 2>&1
 $HOME/loader.sh "sleep 3" "..." "Set Github account"
 
 # Download Binaries
-curl -L https://foundry.paradigm.xyz | bash > /dev/null 2>&1
+curl -L https://foundry.paradigm.xyz > /dev/null 2>&1
 export PATH="$HOME/.foundry/bin:$PATH" > /dev/null 2>&1
 foundryup > /dev/null 2>&1
 $HOME/loader.sh "sleep 5" "..." "Download Binaries"
