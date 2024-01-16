@@ -1,7 +1,10 @@
 #!/bin/bash
 
 wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh > /dev/null 2>&1
-curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash && sleep 2
+clear
+
+curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
+sleep 2
 
 read -p "Enter your Git email: " git_email
 read -p "Enter your Git name: " git_name
@@ -20,14 +23,16 @@ $HOME/loader.sh "sleep 5" "..." "Download Binaries"
 #init
 forge init hello_foundry --force > /dev/null 2>&1
 cd hello_foundry > /dev/null 2>&1
-forge install foundry-rs/forge-std > /dev/null 2>&1
+forge install foundry-rs/forge-std --no-commit > /dev/null 2>&1
 $HOME/loader.sh "sleep 7" "..." "Install & Initialize"
+
 
 # Deploy Contract
 forge create src/Counter.sol:Counter \
   --rpc-url https://rpc.katla.taiko.xyz \
-  --private-key "$PRIVATE_KEY" > /dev/null 2>&1
-$HOME/loader.sh "sleep 5" "..." "Deploying Contract"
-
-echo "Deployment complete!"
-echo "Subscribe our channel -> https://t.me/HappyCuanAirdrop"
+  --private-key "$PRIVATE_KEY" 
+  
+echo " "
+echo " "
+echo -e "Check Output Above, it will thrown \e[1;91mError\e[0m or \e[1;92mSucessful Deployment!\e[0m"
+echo " "
