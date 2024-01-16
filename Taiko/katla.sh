@@ -18,9 +18,10 @@ foundryup > /dev/null 2>&1
 $HOME/loader.sh "sleep 5" "..." "Download Binaries"
 
 #init
-forge init hello_foundry --force && cd hello_foundry > /dev/null 2>&1
-forge install foundry-rs/forge-std --no-commit > /dev/null 2>&1
-$HOME/loader.sh "sleep 3" "..." "Install & Initialize"
+forge init hello_foundry --force > /dev/null 2>&1
+cd hello_foundry > /dev/null 2>&1
+forge install foundry-rs/forge-std > /dev/null 2>&1
+$HOME/loader.sh "sleep 7" "..." "Install & Initialize"
 
 # Deploy Contract
 forge create src/Counter.sol:Counter \
