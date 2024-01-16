@@ -1,26 +1,32 @@
 #!/bin/bash
 
+wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh > /dev/null 2>&1
+curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash && sleep 2
+
 read -p "Enter your Git email: " git_email
 read -p "Enter your Git name: " git_name
+read -p "Please enter your private key (Use burner wallet): " PRIVATE_KEY
 
-git config --global user.email "$git_email"
-git config --global user.name "$git_name"
+git config --global user.email "$git_email" > /dev/null 2>&1
+git config --global user.name "$git_name" > /dev/null 2>&1
+$HOME/loader.sh "sleep 3" "..." "Set Github account"
 
-curl -L https://foundry.paradigm.xyz | bash
+# Download Binaries
+curl -L https://foundry.paradigm.xyz | bash > /dev/null 2>&1
+export PATH="$HOME/.foundry/bin:$PATH" > /dev/null 2>&1
+foundryup > /dev/null 2>&1
+$HOME/loader.sh "sleep 5" "..." "Download Binaries"
 
-export PATH="$HOME/.foundry/bin:$PATH"
+#init
+forge init hello_foundry --force && cd hello_foundry > /dev/null 2>&1
+forge install foundry-rs/forge-std --no-commit > /dev/null 2>&1
+$HOME/loader.sh "sleep 3" "..." "Install & Initialize"
 
-foundryup
-
-forge init hello_foundry --force
-cd hello_foundry
-
-forge install foundry-rs/forge-std --no-commit
-
-read -p "Please enter your private key: " PRIVATE_KEY
+# Deploy Contract
 forge create src/Counter.sol:Counter \
   --rpc-url https://rpc.katla.taiko.xyz \
-  --private-key "$PRIVATE_KEY"
+  --private-key "$PRIVATE_KEY" > /dev/null 2>&1
+$HOME/loader.sh "sleep 5" "..." "Deploying Contract"
 
 echo "Deployment complete!"
 echo "Subscribe our channel -> https://t.me/HappyCuanAirdrop"
