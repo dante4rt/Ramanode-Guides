@@ -1,59 +1,28 @@
 #!/bin/bash
 
-downloadBEVM() {
-    local binaryURL="$1"
-    local binaryName="$2"
+echo "Installing Docker on your VPS..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 
-    if [ ! -e "$binaryName" ]; then
-        echo "Downloading BEVM binary..."
-        wget "$binaryURL"
-        if [ $? -ne 0 ]; then
-            echo "Failed to download BEVM binary. Exiting."
-            exit 1
-        fi
-        chmod +x "$binaryName"
-    fi
-}
+echo "Creating a host mapping path..."
+dataPath="/var/lib/node_bevm_test_storage"
+mkdir -p "$dataPath"
 
-echo "Choose the BEVM binary version:"
-echo "1. x86 (32-bit)"
-echo "2. arm64 (64-bit)"
-read -p "Enter the number of your choice (1 or 2): " choice
-
-if [ "$choice" == "1" ]; then
-    binaryURL="https://github.com/btclayer2/BEVM/releases/download/testnet-v0.1.1/bevm-v0.1.1-ubuntu20.04"
-    binaryName="bevm-v0.1.1-ubuntu20.04"
-elif [ "$choice" == "2" ]; then
-    binaryURL="https://github.com/btclayer2/BEVM/releases/download/testnet-v0.1.1/bevm-v0.1.1-ubuntu20.04.1-arm64"
-    binaryName="bevm-v0.1.1-ubuntu20.04.1-arm64"
-else
-    echo "Invalid choice. Please select 1 or 2."
-    exit 1
-fi
-
-downloadBEVM "$binaryURL" "$binaryName"
+echo "Fetching the Docker image..."
+sudo docker pull btclayer2/bevm:v0.1.1
 
 read -p "Enter your node name: " nodeName
 
-nodeNameLength=${#nodeName}
+echo "Running a Docker container..."
+containerName="$nodeName-bevm"
+sudo docker run -d -v "$dataPath:/root/.local/share/bevm" --name "$containerName" btclayer2/bevm:v0.1.1 bevm \
+  "--chain=testnet" \
+  "--name=$nodeName" \
+  "--pruning=archive" \
+  --telemetry-url "wss://telemetry.bevm.io/submit 0"
 
-paddingLength=$(( 48 + nodeNameLength ))
+echo "Docker container '$containerName' started."
+echo "Subscribe to our channel -> https://t.me/HappyCuanAirdrop"
 
-printEquals() {
-  local length=$1
-  local even=$(( length % 2 == 0 ? length : length + 1 ))
-  printf '=%.0s' $(seq 1 $even)
-}
-
-echo
-printEquals "$paddingLength"; echo
-echo -e " ALL SET !!! "
-printEquals "$paddingLength"; echo
-echo " THANK YOU FOR YOUR SUPPORT "
-printEquals "$paddingLength"; echo
-echo " Join our TG: https://t.me/HappyCuanAirdrop "
-printEquals "$paddingLength"; echo
-echo
-
-echo "Running BEVM with node name: $nodeName"
-"./$binaryName" --chain=testnet --name="$nodeName" --pruning=archive --telemetry-url "wss://telemetry.bevm.io/submit 0"
+echo "Tailing logs of Docker container '$containerName':"
+sudo docker logs -f "$containerName"
