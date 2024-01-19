@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wget -O $HOME/loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x $HOME/loader.sh
+wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh
 clear
 
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
@@ -12,17 +12,28 @@ read -p "Please enter your private key (Use burner wallet): " PRIVATE_KEY
 
 git config --global user.email "$git_email"
 git config --global user.name "$git_name"
-$HOME/loader.sh "sleep 3" "..." "Set Github account"
+./loader.sh "sleep 3" "..." "Set Github account"
 
 curl -L https://foundry.paradigm.xyz | bash
+
 export PATH="$HOME/.foundry/bin:$PATH"
+
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+elif [ -f ~/.zshenv ]; then
+    source ~/.zshenv
+else
+    echo "No .bashrc or .zshenv file found"
+    exit 1
+fi
+
 foundryup
-$HOME/loader.sh "sleep 5" "..." "Download Binaries"
+./loader.sh "sleep 5" "..." "Download Binaries"
 
 forge init hello_foundry --force
 cd hello_foundry
 forge install foundry-rs/forge-std --no-commit
-$HOME/loader.sh "sleep 7" "..." "Install & Initialize"
+./loader.sh "sleep 7" "..." "Install & Initialize"
 
 forge create src/Counter.sol:Counter \
   --rpc-url https://rpc.katla.taiko.xyz \
