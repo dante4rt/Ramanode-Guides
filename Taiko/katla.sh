@@ -14,7 +14,7 @@ git config --global user.email "$git_email"
 git config --global user.name "$git_name"
 ./loader.sh "sleep 3" "..." "Set Github account"
 
-curl -L https://foundry.paradigm.xyz > /dev/null 2>&1
+curl -L https://foundry.paradigm.xyz | bash
 
 export PATH="$HOME/.foundry/bin:$PATH"
 
@@ -27,18 +27,17 @@ else
     exit 1
 fi
 
-foundryup > /dev/null 2>&1
+foundryup
 ./loader.sh "sleep 5" "..." "Download Binaries"
 
-forge init hello_foundry --force > /dev/null 2>&1
-cd hello_foundry 
-forge install foundry-rs/forge-std --no-commit > /dev/null 2>&1
-cd .. && ./loader.sh "sleep 7" "..." "Install & Initialize"
+forge init hello_foundry --force
+cd hello_foundry || { echo "Failed to enter directory hello_foundry"; exit 1; }
+forge install foundry-rs/forge-std --no-commit
+./loader.sh "sleep 7" "..." "Install & Initialize"
 
-cd hello_foundry
 forge create src/Counter.sol:Counter \
   --rpc-url https://rpc.katla.taiko.xyz \
-  --private-key "$PRIVATE_KEY" 
+  --private-key "$PRIVATE_KEY"
 
 echo " "
 echo " "
