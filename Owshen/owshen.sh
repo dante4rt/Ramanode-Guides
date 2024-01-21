@@ -1,22 +1,25 @@
 #!/bin/bash
 
+if [ -f Owshen_v0.1.3_x86_64.AppImage ] && [ -f ~/.owshen-wallet ]; then
+    echo "Owshen Wallet is already installed and initialized."
+    echo "Running Owshen Wallet..."
+    ./Owshen_v0.1.3_x86_64.AppImage wallet
+    exit 0
+fi
+
 wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh
 
 clear
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-echo "Installing Node.js and npm..."
-sudo apt update && sudo apt install nodejs npm -y
-echo "Node.js and npm installed."
-
-echo "Installing FUSE..."
-sudo apt install libfuse2 fuse -y
+echo "Installing Node.js, npm, and FUSE..."
+sudo apt update && sudo apt install nodejs npm libfuse2 fuse -y
 sudo modprobe fuse
 sudo groupadd fuse 2>/dev/null 
 user="$(whoami)"
 sudo usermod -a -G fuse "$user"
-echo "FUSE installed."
+echo "Node.js, npm, and FUSE installed."
 
 echo "Installing snarkjs..."
 sudo npm install -g snarkjs
