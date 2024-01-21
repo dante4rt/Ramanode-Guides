@@ -13,7 +13,9 @@ echo "Installing snarkjs..."
 ./loader.sh "sudo npm install -g snarkjs" "..." "Installing snarkjs"
 
 echo "Downloading Owshen Wallet..."
-./loader.sh "wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.3/Owshen_v0.1.3_x86_64.AppImage && chmod +x Owshen_v0.1.3_x86_64.AppImage" "..." "Downloading and setting up Owshen Wallet"
+wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.3/Owshen_v0.1.3_x86_64.AppImage
+chmod +x Owshen_v0.1.3_x86_64.AppImage
+./loader.sh "echo 'AppImage downloaded and made executable'" "..." "Preparing Owshen Wallet"
 
 initialize_wallet() {
     read -p "Enter your 12-word mnemonic phrase: " MNEMONIC
