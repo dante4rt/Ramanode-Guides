@@ -6,20 +6,27 @@ clear
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-echo "Installing libfuse2 and nodejs..."
-./loader.sh "sudo apt update && sudo apt install fuse libfuse2 nodejs -y" "..." "Updating and installing packages"
+echo "Installing Node.js and npm..."
+./loader.sh "sudo apt update && sudo apt install nodejs npm -y" "..." "Installing Node.js and npm"
 
 echo "Installing snarkjs..."
 ./loader.sh "sudo npm install -g snarkjs" "..." "Installing snarkjs"
 
-echo "Downloading Owshen Wallet..."
-wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.3/Owshen_v0.1.3_x86_64.AppImage
-chmod +x Owshen_v0.1.3_x86_64.AppImage
-./loader.sh "echo 'AppImage downloaded and made executable'" "..." "Preparing Owshen Wallet"
+if [ ! -f Owshen_v0.1.3_x86_64.AppImage ]; then
+    echo "Downloading Owshen Wallet..."
+    ./loader.sh "wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.3/Owshen_v0.1.3_x86_64.AppImage && chmod +x Owshen_v0.1.3_x86_64.AppImage" "..." "Downloading and setting up Owshen Wallet"
+else
+    echo "Owshen Wallet AppImage already downloaded."
+    chmod +x Owshen_v0.1.3_x86_64.AppImage
+fi
 
 initialize_wallet() {
     read -p "Enter your 12-word mnemonic phrase: " MNEMONIC
-    ./Owshen_v0.1.3_x86_64.AppImage init --mnemonic "$MNEMONIC"
+    if ./Owshen_v0.1.3_x86_64.AppImage init --mnemonic "$MNEMONIC"; then
+        echo "Wallet initialized successfully."
+    else
+        echo "Failed to initialize wallet. FUSE might not be supported in this environment."
+    fi
 }
 
 if [ ! -f ~/.owshen-wallet ]; then
@@ -37,4 +44,8 @@ else
 fi
 
 echo "Running Owshen Wallet..."
-./loader.sh "./Owshen_v0.1.3_x86_64.AppImage wallet" "..." "Launching Owshen Wallet"
+if ./Owshen_v0.1.3_x86_64.AppImage wallet; then
+    echo "Owshen Wallet launched successfully."
+else
+    echo "Failed to launch Owshen Wallet. FUSE might not be supported in this environment."
+fi
