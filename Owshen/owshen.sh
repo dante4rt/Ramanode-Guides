@@ -6,8 +6,11 @@ clear
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-echo "Installing libfuse2 and nodejs..."
-./loader.sh "sudo apt update && sudo apt install fuse libfuse2 nodejs -y" "..." "Updating and installing packages"
+echo "Installing Node.js and npm..."
+./loader.sh "sudo apt update && sudo apt install nodejs npm -y" "..." "Updating and installing Node.js and npm"
+
+echo "Installing FUSE..."
+./loader.sh "sudo apt update && sudo apt install libfuse2 -y && sudo modprobe fuse && sudo groupadd fuse && user=\"$(whoami)\" && sudo usermod -a -G fuse \$user" "..." "Installing FUSE"
 
 echo "Installing snarkjs..."
 ./loader.sh "sudo npm install -g snarkjs" "..." "Installing snarkjs"
