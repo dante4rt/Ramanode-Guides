@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f Owshen_v0.1.3_x86_64.AppImage ] && [ -f ~/.owshen-wallet ]; then
+if [ -f Owshen_v0.1.3_x86_64.AppImage ]; then
     echo "Owshen Wallet is already installed and initialized."
     echo "Running Owshen Wallet..."
     ./Owshen_v0.1.3_x86_64.AppImage wallet
