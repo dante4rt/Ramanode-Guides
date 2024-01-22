@@ -3,7 +3,7 @@
 if [ -f Owshen_v0.1.3_x86_64.AppImage ]; then
     echo "Owshen Wallet is already installed and initialized."
     echo "Running Owshen Wallet..."
-    ./Owshen_v0.1.3_x86_64.AppImage wallet
+    ./Owshen_v0.1.4_x86_64.AppImage wallet
     exit 0
 fi
 
@@ -26,15 +26,15 @@ sudo npm install -g snarkjs
 echo "snarkjs installed."
 
 echo "Downloading Owshen Wallet..."
-if [ ! -f Owshen_v0.1.3_x86_64.AppImage ]; then
-    wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.3/Owshen_v0.1.3_x86_64.AppImage
+if [ ! -f Owshen_v0.1.4_x86_64.AppImage ]; then
+    wget https://github.com/OwshenNetwork/owshen/releases/download/v0.1.4/Owshen_v0.1.4_x86_64.AppImage
 fi
-chmod +x Owshen_v0.1.3_x86_64.AppImage
+chmod +x Owshen_v0.1.4_x86_64.AppImage
 echo "Owshen Wallet downloaded and made executable."
 
 initialize_wallet() {
     read -p "Enter your 12-word mnemonic phrase: " MNEMONIC
-    ./Owshen_v0.1.3_x86_64.AppImage init --mnemonic "$MNEMONIC"
+    ./Owshen_v0.1.4_x86_64.AppImage init --mnemonic "$MNEMONIC"
 }
 
 if [ ! -f ~/.owshen-wallet ]; then
@@ -52,4 +52,4 @@ else
 fi
 
 echo "Running Owshen Wallet..."
-./Owshen_v0.1.3_x86_64.AppImage wallet
+./Owshen_v0.1.4_x86_64.AppImage wallet
