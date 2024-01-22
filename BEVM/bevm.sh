@@ -1,8 +1,17 @@
 #!/bin/bash
 
-echo "Installing Docker on your VPS..."
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Installing Docker on your VPS..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+else
+    echo "Docker is already installed."
+fi
+
+echo "Enabling ports 30333 and 30334..."
+sudo ufw allow 30333/tcp
+sudo ufw allow 30334/tcp
+sudo ufw --force enable
 
 echo "Creating a host mapping path..."
 dataPath="/var/lib/node_bevm_test_storage"
@@ -15,7 +24,7 @@ read -p "Enter your node name: " nodeName
 
 echo "Running a Docker container..."
 containerName="$nodeName-bevm"
-sudo docker run -d -v "$dataPath:/root/.local/share/bevm" --name "$containerName" btclayer2/bevm:v0.1.1 bevm \
+sudo docker run -d -p 30333:30333 -v "$dataPath:/root/.local/share/bevm" --name "$containerName" btclayer2/bevm:v0.1.1 bevm \
   "--chain=testnet" \
   "--name=$nodeName" \
   "--pruning=archive" \
