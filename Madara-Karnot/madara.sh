@@ -37,7 +37,8 @@ if [ $? -eq 0 ]; then
     deploy_output=$(node scripts/deploy.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json 0x1)
 
     # Extract transaction_hash from the deploy command's output
-    transaction_hash=$(echo $deploy_output | grep -oP '(?<=transaction_hash: \').*?(?=\')')
+    # Simplified extraction using sed for broader compatibility
+    transaction_hash=$(echo "$deploy_output" | sed -n 's/.*transaction_hash: '\''\([^'\'']*\)'\''.*/\1/p')
 
     # Use the extracted transaction_hash in the next command
     if [ ! -z "$transaction_hash" ]; then
