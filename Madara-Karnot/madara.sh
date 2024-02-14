@@ -56,7 +56,6 @@ if [ $? -eq 0 ]; then
     # Use the extracted transaction_hash in the next command
     if [ ! -z "$transaction_hash" ]; then
         echo "Deploy command successful. Transaction hash: $transaction_hash"
-        node scripts/get_transaction.js $transaction_hash
     else
         echo "Failed to extract transaction hash."
     fi
