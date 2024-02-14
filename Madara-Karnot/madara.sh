@@ -3,6 +3,20 @@
 # Change to the user's home directory
 cd $HOME
 
+# Check if starkli is installed by checking its version
+if ! starkli --version &> /dev/null; then
+    echo "starkli not found. Installing..."
+    curl https://get.starkli.sh | sh
+    # Source the Starkli environment variables
+    . /root/.starkli/env
+    # Update Starkli to the latest version
+    starkliup
+    # Set the STARKNET_RPC environment variable
+    export STARKNET_RPC="http://localhost:9944/"
+else
+    echo "starkli found. Proceeding with existing setup..."
+fi
+
 # Define project directory
 PROJECT_DIR="$HOME/madara-get-started"
 
@@ -37,7 +51,6 @@ if [ $? -eq 0 ]; then
     deploy_output=$(node scripts/deploy.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json 0x1)
 
     # Extract transaction_hash from the deploy command's output
-    # Simplified extraction using sed for broader compatibility
     transaction_hash=$(echo "$deploy_output" | sed -n 's/.*transaction_hash: '\''\([^'\'']*\)'\''.*/\1/p')
 
     # Use the extracted transaction_hash in the next command
