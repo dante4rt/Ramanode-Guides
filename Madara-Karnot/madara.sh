@@ -3,6 +3,15 @@
 # Change to the user's home directory
 cd $HOME
 
+# Find the Node.js executable path
+NODE_PATH=$(which node)
+
+# Check if the node command is found, if not, exit the script
+if [ -z "$NODE_PATH" ]; then
+    echo "Node.js not found. Please install Node.js to continue."
+    exit 1
+fi
+
 # Check if starkli is installed by checking its version
 if ! starkli --version &> /dev/null; then
     echo "starkli not found. Installing..."
@@ -41,14 +50,14 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-# Run the first command
+# Run the first command using the Node.js path
 echo "Running declare script..."
-declare_output=$(node scripts/declare.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json ./contracts/OpenZeppelinAccountCairoOne.casm.json)
+declare_output=$($NODE_PATH scripts/declare.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json ./contracts/OpenZeppelinAccountCairoOne.casm.json)
 
 # Check if declare was successful before proceeding
 if [ $? -eq 0 ]; then
     echo "Declare command successful. Proceeding to deploy..."
-    deploy_output=$(node scripts/deploy.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json 0x1)
+    deploy_output=$($NODE_PATH scripts/deploy.js ./contracts/OpenZeppelinAccountCairoOne.sierra.json 0x1)
 
     # Extract transaction_hash from the deploy command's output
     transaction_hash=$(echo "$deploy_output" | sed -n 's/.*transaction_hash: '\''\([^'\'']*\)'\''.*/\1/p')
@@ -56,6 +65,8 @@ if [ $? -eq 0 ]; then
     # Use the extracted transaction_hash in the next command
     if [ ! -z "$transaction_hash" ]; then
         echo "Deploy command successful. Transaction hash: $transaction_hash"
+        
+        # $($NODE_PATH scripts/get_transaction.js $transaction_hash)
     else
         echo "Failed to extract transaction hash."
     fi
