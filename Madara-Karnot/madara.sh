@@ -5,6 +5,7 @@ cd $HOME
 
 # Find the Node.js executable path
 NODE_PATH=$(which node)
+STARKLI_PATH=$(which starkli)
 
 # Check if the node command is found, if not, exit the script
 if [ -z "$NODE_PATH" ]; then
@@ -13,7 +14,7 @@ if [ -z "$NODE_PATH" ]; then
 fi
 
 # Check if starkli is installed by checking its version
-if ! starkli --version &> /dev/null; then
+if ! $STARKLI_PATH --version &> /dev/null; then
     echo "starkli not found. Installing..."
     curl https://get.starkli.sh | sh
     # Source the Starkli environment variables
