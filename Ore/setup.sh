@@ -14,15 +14,21 @@ export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 solana-keygen new 
 
 echo "Your Solana wallet address (public key):"
-solana-keygen pubkey 
+pubkey=$(solana-keygen pubkey)
+echo "$pubkey"
 echo "Please deposit at least 0.101 SOL to this address."
 
-
-read -p "Have you deposited at least 0.101 SOL to the address? (y/n): " confirm_deposit
-if [ "$confirm_deposit" != "y" ]; then
-    echo "Please deposit at least 0.101 SOL to the address and try again."
-    exit 1
-fi
+while true; do
+    read -p "Have you deposited at least 0.101 SOL to the address? (y/n): " confirm_deposit
+    if [ "$confirm_deposit" = "y" ]; then
+        break
+    elif [ "$confirm_deposit" = "n" ]; then
+        echo "Please deposit at least 0.101 SOL to the address and try again."
+        exit 1
+    else
+        echo "Invalid input. Please enter 'y' or 'n'."
+    fi
+done
 
 sudo apt-get install -y build-essential gcc
 
