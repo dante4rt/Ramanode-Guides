@@ -19,7 +19,7 @@ Before running the script, ensure that you have the following prerequisites inst
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/<username>/Ore.git
+   git clone https://github.com/dante4rt/Ore.git
    ```
 
 2. Navigate to the cloned directory:
