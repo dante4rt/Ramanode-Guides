@@ -18,17 +18,11 @@ pubkey=$(solana-keygen pubkey)
 echo "$pubkey"
 echo "Please deposit at least 0.101 SOL to this address."
 
-while true; do
-    read -p "Have you deposited at least 0.101 SOL to the address? (y/n): " confirm_deposit
-    if [ "$confirm_deposit" = "y" ]; then
-        break
-    elif [ "$confirm_deposit" = "n" ]; then
-        echo "Please deposit at least 0.101 SOL to the address and try again."
-        exit 1
-    else
-        echo "Invalid input. Please enter 'y' or 'n'."
-    fi
-done
+read -p "Once you have deposited the SOL, press 'y' and then ENTER to continue: " confirm_deposit
+if [ "$confirm_deposit" != "y" ]; then
+    echo "Please deposit at least 0.101 SOL to the address and then run the script again."
+    exit 1
+fi
 
 sudo apt-get install -y build-essential gcc
 
