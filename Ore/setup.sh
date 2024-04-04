@@ -35,7 +35,7 @@ cat <<EOF > ore.sh
 while true 
 do 
   echo "Running" 
-  ore --rpc "$rpc_url" --keypair ~/.config/solana/id.json --priority-fee 1000 mine --threads 4 
+  ore --rpc "$rpc_url" --keypair ~/.config/solana/id.json --priority-fee 1000 mine --threads 15 
   echo "Exited" 
 done 
 EOF
