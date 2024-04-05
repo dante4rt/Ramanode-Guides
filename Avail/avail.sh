@@ -5,14 +5,6 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-if [ -f "avail.sh" ]; then
-    echo "Removing existing avail.sh file..."
-    rm avail.sh
-fi
-
-echo "Downloading avail.sh script..."
-wget -O avail.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/avail.sh
-
 sudo tee /etc/systemd/system/avail.service > /dev/null <<EOF
 [Unit]
 Description=Avail Light Client
