@@ -7,6 +7,18 @@ show_hca_logo() {
     sleep 2
 }
 
+remove_existing_avail_script() {
+    if [ -f "avail.sh" ]; then
+        echo "Removing existing avail.sh file..."
+        rm avail.sh
+    fi
+}
+
+download_avail_script() {
+    echo "Downloading avail.sh script..."
+    wget -O avail.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/avail.sh
+}
+
 setup_avail_service() {
     sudo tee /etc/systemd/system/avail.service > /dev/null <<EOF
 [Unit]
@@ -39,6 +51,8 @@ check_logs() {
 
 main() {
     show_hca_logo
+    remove_existing_avail_script
+    download_avail_script
     setup_avail_service
     check_logs
 }
