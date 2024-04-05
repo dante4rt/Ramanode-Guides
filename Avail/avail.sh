@@ -1,12 +1,14 @@
 #!/bin/bash
 
+show_hca_logo() {
+    echo "Showing HCA logo..."
+    wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh && ./loader.sh
+    curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
+    sleep 2
+}
 
-echo "Showing HCA logo..."
-wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh && ./loader.sh
-curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
-sleep 2
-
-sudo tee /etc/systemd/system/avail.service > /dev/null <<EOF
+setup_avail_service() {
+    sudo tee /etc/systemd/system/avail.service > /dev/null <<EOF
 [Unit]
 Description=Avail Light Client
 After=network.target
@@ -23,11 +25,22 @@ LimitNOFILE=65000
 WantedBy=multi-user.target
 EOF
 
-sudo systemctl daemon-reload
-sudo systemctl enable avail
-sudo systemctl start avail
+    sudo systemctl daemon-reload
+    sudo systemctl enable avail
+    sudo systemctl start avail
+}
 
-read -p "Do you want to check logs (y/n)? " choice
-if [ "$choice" = "y" ]; then
-    sudo journalctl -fu avail -o cat
-fi
+check_logs() {
+    read -p "Do you want to check logs (y/n)? " choice
+    if [ "$choice" = "y" ]; then
+        sudo journalctl -fu avail -o cat
+    fi
+}
+
+main() {
+    show_hca_logo
+    setup_avail_service
+    check_logs
+}
+
+main
