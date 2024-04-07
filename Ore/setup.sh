@@ -30,12 +30,19 @@ cargo install ore-cli
 
 read -p "Please enter the RPC URL: " rpc_url
 
+read -p "Please enter the fee (default is 1000): " fee
+fee=${fee:-1000}
+
+read -p "Please enter the number of threads (default is 4): " threads
+threads=${threads:-4}
+
 cat <<EOF > ore.sh
- 
+#!/bin/bash
+
 while true 
 do 
   echo "Running" 
-  ore --rpc "$rpc_url" --keypair ~/.config/solana/id.json --priority-fee 1000 mine --threads 4 
+  ore --rpc "$rpc_url" --keypair ~/.config/solana/id.json --priority-fee $fee mine --threads $threads
   echo "Exited" 
 done 
 EOF
