@@ -81,12 +81,12 @@ sed -i \
 ```
 
 ## 6. Download Latest Snapshot
-Fetch the latest snapshot from [Itrocket validator](https://itrocket.net/services/testnet/crossfi/):
+Fetch the latest snapshot from [us](https://github.com/dante4rt/Ramanode-Guides/blob/main/CrossFi/SNAPSHOT.md):
 ```
 
 cp $HOME/$FOLDER/data/priv_validator_state.json $HOME/$FOLDER/priv_validator_state.json.backup
 rm -rf $HOME/$FOLDER/data $HOME/$FOLDER/wasmPath
-curl https://testnet-files.itrocket.net/crossfi/snap_crossfi.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$FOLDER
+curl -L https://snap.ramadhvni.com/crossfi/latest_snapshot.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$FOLDER
 mv $HOME/$FOLDER/priv_validator_state.json.backup $HOME/$FOLDER/data/priv_validator_state.json
 
 ```
