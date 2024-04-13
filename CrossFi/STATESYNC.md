@@ -1,4 +1,4 @@
-### STATE SYNC PROCEDURE
+# STATE SYNC PROCEDURE
 
 ## 1. Halt the Node
 
