@@ -1,16 +1,19 @@
 ### STATE SYNC PROCEDURE
 
-1. Halt the Node
-```
+## 1. Halt the Node
+
+```bash
 sudo systemctl stop crossfid
 ```
 
-2. Reset Configuration (Retain Address Book)
-```
+## 2. Reset Configuration (Retain Address Book)
+
+```bash
 crossfid tendermint unsafe-reset-all --home ~/.mineplex-chain/ --keep-addr-book
 ```
 
-3. Define and Configure Configuration Files
+## 3. Define and Configure Configuration Files
+
 ```bash
 SNAP_RPC="http://crossfi-test-rpc.ramadhvni.com:443"
 
@@ -32,13 +35,15 @@ more ~/.mineplex-chain/config/config.toml | grep 'trust_height'
 more ~/.mineplex-chain/config/config.toml | grep 'trust_hash'
 ```
 
-4. Restart the Node
-```
+## 4. Restart the Node
+
+```bash
 sudo systemctl restart crossfid
 ```
 
-5. Monitor Logs and Await Synchronization (in minutes)
-```
+## 5. Monitor Logs and Await Synchronization (in minutes)
+
+```bash
 sudo journalctl -u crossfid -f --no-hostname -o cat
 ```
 
