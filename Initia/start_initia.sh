@@ -10,17 +10,22 @@ if [[ "$GO_VERSION" == *"go1."* ]]; then
     MAJOR_VERSION=$(echo "$GO_VERSION" | cut -d'.' -f2)
     if [ "$MAJOR_VERSION" -lt 19 ]; then
         echo "Go version $GO_VERSION is not supported. Please install Go version 1.19 or above."
-        exit 1
+        echo "Installing Go version 1.19..."
+        wget https://golang.org/dl/go1.19.linux-amd64.tar.gz
+        sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
+        export PATH=$PATH:/usr/local/go/bin
     fi
 else
     echo "Go version is not detected. Please install Go version 1.19 or above."
-    exit 1
+    echo "Installing Go version 1.19..."
+    wget https://golang.org/dl/go1.19.linux-amd64.tar.gz
+    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
+    export PATH=$PATH:/usr/local/go/bin
 fi
 
 if ! command -v go &> /dev/null; then
-    echo "Go is not installed. Installing..."
-    sudo apt update
-    sudo apt install -y golang
+    echo "Go is not installed. Exiting..."
+    exit 1
 fi
 
 if ! command -v git &> /dev/null; then
