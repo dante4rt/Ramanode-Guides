@@ -5,10 +5,16 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-if ! command -v go &> /dev/null; then
-    echo "Go is not installed. Installing..."
-    sudo apt update
-    sudo apt install -y golang
+if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
+    echo "Go version 1.22 or later is required. Installing the latest version..."
+    wget -qO- https://golang.org/dl/ | grep -o 'href=['"'"'"][^"'"'"']*'"'"'"' | sed -e 's/^href=["'"'"']//' -e 's/["'"'"']$//' | grep 'go[0-9.]*linux-amd64.tar.gz' | head -n 1 | wget --base=https://golang.org/dl/ -i- -O go-latest.tar.gz
+    sudo tar -C /usr/local -xzf go-latest.tar.gz
+    rm go-latest.tar.gz
+    export PATH=$PATH:/usr/local/go/bin
+    if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
+        echo "Failed to install Go version 1.22 or later. Exiting."
+        exit 1
+    fi
 fi
 
 if ! command -v git &> /dev/null; then
