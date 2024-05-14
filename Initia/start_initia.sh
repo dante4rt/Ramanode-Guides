@@ -5,32 +5,22 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
-    echo "Go version 1.22 or later is required. Installing the latest version..."
+GO_VERSION=$(go version | awk '{print $3}')
+if [[ "$GO_VERSION" == *"go1."* ]]; then
+    MAJOR_VERSION=$(echo "$GO_VERSION" | cut -d'.' -f2)
+    if [ "$MAJOR_VERSION" -lt 19 ]; then
+        echo "Go version $GO_VERSION is not supported. Please install Go version 1.19 or above."
+        exit 1
+    fi
+else
+    echo "Go version is not detected. Please install Go version 1.19 or above."
+    exit 1
+fi
 
-    LATEST_GO_URL="https://go.dev/dl/$(curl -s https://go.dev/dl/ | grep -o -E 'go[0-9]+\.[0-9]+\.[0-9]+.src.tar.gz' | head -n 1)"
-    if [ -z "$LATEST_GO_URL" ]; then
-        echo "Failed to retrieve the latest Go version URL. Exiting."
-        exit 1
-    fi
-    wget -O go-latest.tar.gz "$LATEST_GO_URL"
-    if [ $? -ne 0 ]; then
-        echo "Failed to download the latest Go version. Exiting."
-        exit 1
-    fi
-
-    sudo tar -C /usr/local -xzf go-latest.tar.gz
-    if [ $? -ne 0 ]; then
-        echo "Failed to extract the latest Go version. Exiting."
-        exit 1
-    fi
-    rm go-latest.tar.gz
-    export PATH=$PATH:/usr/local/go/bin
-
-    if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
-        echo "Failed to install Go version 1.22 or later. Exiting."
-        exit 1
-    fi
+if ! command -v go &> /dev/null; then
+    echo "Go is not installed. Installing..."
+    sudo apt update
+    sudo apt install -y golang
 fi
 
 if ! command -v git &> /dev/null; then
