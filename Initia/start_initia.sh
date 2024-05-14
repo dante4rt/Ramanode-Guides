@@ -7,10 +7,26 @@ sleep 2
 
 if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
     echo "Go version 1.22 or later is required. Installing the latest version..."
-    wget -qO- https://golang.org/dl/ | grep -o 'href=['"'"'"][^"'"'"']*'"'"'"' | sed -e 's/^href=["'"'"']//' -e 's/["'"'"']$//' | grep 'go[0-9.]*linux-amd64.tar.gz' | head -n 1 | wget --base=https://golang.org/dl/ -i- -O go-latest.tar.gz
+
+    LATEST_GO_URL=$(curl -s https://golang.org/dl/ | grep -o -E 'https://dl.google.com/go/[a-zA-Z0-9._%+-]+.linux-amd64.tar.gz' | head -n 1)
+    if [ -z "$LATEST_GO_URL" ]; then
+        echo "Failed to retrieve the latest Go version URL. Exiting."
+        exit 1
+    fi
+    wget -O go-latest.tar.gz "$LATEST_GO_URL"
+    if [ $? -ne 0 ]; then
+        echo "Failed to download the latest Go version. Exiting."
+        exit 1
+    fi
+
     sudo tar -C /usr/local -xzf go-latest.tar.gz
+    if [ $? -ne 0 ]; then
+        echo "Failed to extract the latest Go version. Exiting."
+        exit 1
+    fi
     rm go-latest.tar.gz
     export PATH=$PATH:/usr/local/go/bin
+
     if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
         echo "Failed to install Go version 1.22 or later. Exiting."
         exit 1
