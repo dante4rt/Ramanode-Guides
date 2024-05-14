@@ -29,6 +29,7 @@ if ! command -v jq &> /dev/null; then
     sudo apt install -y jq
 fi
 
+cd $HOME
 git clone https://github.com/initia-labs/initia
 cd initia
 
