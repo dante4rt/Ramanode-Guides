@@ -8,7 +8,7 @@ sleep 2
 if ! go version | grep -q "go1\.2[2-9]\|go[2-9][0-9]\|go[2-9][0-9]\."; then
     echo "Go version 1.22 or later is required. Installing the latest version..."
 
-    LATEST_GO_URL=$(curl -s https://go.dev/dl/ | grep -o -E 'https://dl.google.com/go/[a-zA-Z0-9._%+-]+.linux-amd64.tar.gz' | head -n 1)
+    LATEST_GO_URL="https://go.dev/dl/$(curl -s https://go.dev/dl/ | grep -o -E 'go[0-9]+\.[0-9]+\.[0-9]+.src.tar.gz' | head -n 1)"
     if [ -z "$LATEST_GO_URL" ]; then
         echo "Failed to retrieve the latest Go version URL. Exiting."
         exit 1
