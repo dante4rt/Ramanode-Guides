@@ -5,29 +5,27 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-GO_VERSION=$(go version | awk '{print $3}')
-if [[ "$GO_VERSION" == *"go1."* ]]; then
-    MAJOR_VERSION=$(echo "$GO_VERSION" | cut -d'.' -f2)
-    if [ "$MAJOR_VERSION" -lt 19 ]; then
-        echo "Go version $GO_VERSION is not supported. Please install Go version 1.19 or above."
-        echo "Installing Go version 1.19..."
-        wget https://golang.org/dl/go1.19.linux-amd64.tar.gz
-        sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
-        export PATH=$PATH:/usr/local/go/bin
-    fi
-else
-    echo "Go version is not detected. Please install Go version 1.19 or above."
-    echo "Installing Go version 1.19..."
-    wget https://golang.org/dl/go1.19.linux-amd64.tar.gz
-    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.19.linux-amd64.tar.gz
-    export PATH=$PATH:/usr/local/go/bin
+# Check if Go version is 1.19 or above, if not install Go 1.21.7
+if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}') < "go1.19" ]]; then
+    echo "Go version 1.19 or above is required. Installing the latest version..."
+    cd $HOME
+    sudo rm -rf /usr/local/go
+    curl -Ls https://go.dev/dl/go1.21.7.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
+    eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
+    eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
+    source /etc/profile.d/golang.sh
+    source $HOME/.profile
 fi
 
+# Verify Go installation
 if ! command -v go &> /dev/null; then
-    echo "Go is not installed. Exiting..."
+    echo "Failed to install Go. Exiting..."
     exit 1
 fi
 
+echo "Go version: $(go version)"
+
+# Ensure git, curl, and jq are installed
 if ! command -v git &> /dev/null; then
     echo "Git is not installed. Installing..."
     sudo apt update
@@ -46,30 +44,30 @@ if ! command -v jq &> /dev/null; then
     sudo apt install -y jq
 fi
 
+# Clone and set up Initia
 cd $HOME
 git clone https://github.com/initia-labs/initia
 cd initia
-
 git checkout v0.2.11
-
 make install
-
 initiad version --long
 
+# Initialize Initia node
 read -p "Enter moniker for your node: " moniker
-
 initiad init "$moniker" --chain-id initiation-1
 
+# Download and copy genesis file
 wget https://initia.s3.ap-southeast-1.amazonaws.com/initiation-1/genesis.json
-
 cp genesis.json ~/.initia/config/genesis.json
 
-sed -i -e 's/external_address = \"\"/external_address = \"'$(curl httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
-
+# Update configuration files
+sed -i -e 's/external_address = \"\"/external_address = \"'$(curl -s httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
 sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.15uinit,0.01uusdc\"|" ~/.initia/config/app.toml
 
+# Download and copy addrbook
 curl -Ls https://ss-t.initia.nodestake.org/addrbook.json > ~/.initia/config/addrbook.json
 
+# Create systemd service file for Initia daemon
 sudo tee /etc/systemd/system/initiad.service > /dev/null <<EOF
 [Unit]
 Description=Initia Daemon
@@ -88,6 +86,7 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 
+# Enable and start the Initia daemon
 sudo systemctl enable initiad
 sudo systemctl daemon-reload
 sudo systemctl restart initiad
