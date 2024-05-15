@@ -5,19 +5,21 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-# Check if Go version is 1.19 or above, if not install Go 1.21.7
-if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}') < "go1.19" ]]; then
+echo "Updating and installing required packages..."
+sudo apt update && sudo apt upgrade -y
+sudo apt install clang pkg-config libssl-dev curl git wget htop tmux build-essential jq make lz4 gcc unzip -y
+
+if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}' | cut -d. -f2) -lt 19 ]]; then
     echo "Go version 1.19 or above is required. Installing the latest version..."
     cd $HOME
     sudo rm -rf /usr/local/go
     curl -Ls https://go.dev/dl/go1.21.7.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-    eval $(echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh)
-    eval $(echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile)
+    echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee /etc/profile.d/golang.sh
+    echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile
     source /etc/profile.d/golang.sh
     source $HOME/.profile
 fi
 
-# Verify Go installation
 if ! command -v go &> /dev/null; then
     echo "Failed to install Go. Exiting..."
     exit 1
@@ -25,7 +27,6 @@ fi
 
 echo "Go version: $(go version)"
 
-# Ensure git, curl, and jq are installed
 if ! command -v git &> /dev/null; then
     echo "Git is not installed. Installing..."
     sudo apt update
@@ -44,7 +45,6 @@ if ! command -v jq &> /dev/null; then
     sudo apt install -y jq
 fi
 
-# Clone and set up Initia
 cd $HOME
 git clone https://github.com/initia-labs/initia
 cd initia
@@ -52,22 +52,17 @@ git checkout v0.2.11
 make install
 initiad version --long
 
-# Initialize Initia node
 read -p "Enter moniker for your node: " moniker
 initiad init "$moniker" --chain-id initiation-1
 
-# Download and copy genesis file
 wget https://initia.s3.ap-southeast-1.amazonaws.com/initiation-1/genesis.json
 cp genesis.json ~/.initia/config/genesis.json
 
-# Update configuration files
 sed -i -e 's/external_address = \"\"/external_address = \"'$(curl -s httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
 sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.15uinit,0.01uusdc\"|" ~/.initia/config/app.toml
 
-# Download and copy addrbook
 curl -Ls https://ss-t.initia.nodestake.org/addrbook.json > ~/.initia/config/addrbook.json
 
-# Create systemd service file for Initia daemon
 sudo tee /etc/systemd/system/initiad.service > /dev/null <<EOF
 [Unit]
 Description=Initia Daemon
@@ -86,7 +81,6 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 
-# Enable and start the Initia daemon
 sudo systemctl enable initiad
 sudo systemctl daemon-reload
 sudo systemctl restart initiad
