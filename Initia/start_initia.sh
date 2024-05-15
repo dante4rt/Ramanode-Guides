@@ -48,7 +48,7 @@ fi
 cd $HOME
 git clone https://github.com/initia-labs/initia
 cd initia
-git checkout v0.2.11
+git checkout v0.2.12
 make install
 initiad version --long
 
@@ -58,7 +58,7 @@ initiad init "$moniker" --chain-id initiation-1
 wget https://initia.s3.ap-southeast-1.amazonaws.com/initiation-1/genesis.json
 cp genesis.json ~/.initia/config/genesis.json
 
-sed -i -e 's/external_address = \"\"/external_address = \"'$(curl -s httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
+sed -i -e 's/external_address = \"\"/external_address = \"'$(curl httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
 sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.15uinit,0.01uusdc\"|" ~/.initia/config/app.toml
 
 curl -Ls https://ss-t.initia.nodestake.org/addrbook.json > ~/.initia/config/addrbook.json
