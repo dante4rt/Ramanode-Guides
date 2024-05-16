@@ -7,7 +7,7 @@ sleep 2
 
 echo "Updating and installing required packages..."
 sudo apt update && sudo apt upgrade -y
-sudo apt install clang pkg-config libssl-dev curl git wget htop tmux build-essential jq make lz4 gcc unzip -y
+sudo apt install clang pkg-config libssl-dev curl git wget htop tmux build-essential make lz4 gcc unzip -y
 
 if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}' | cut -d. -f2) -lt 19 ]]; then
     echo "Go version 1.19 or above is required. Installing the latest version..."
@@ -29,26 +29,23 @@ echo "Go version: $(go version)"
 
 if ! command -v git &> /dev/null; then
     echo "Git is not installed. Installing..."
-    sudo apt update
     sudo apt install -y git
 fi
 
 if ! command -v curl &> /dev/null; then
     echo "curl is not installed. Installing..."
-    sudo apt update
     sudo apt install -y curl
 fi
 
 if ! command -v jq &> /dev/null; then
     echo "jq is not installed. Installing..."
-    sudo apt update
     sudo apt install -y jq
 fi
 
 cd $HOME
 git clone https://github.com/initia-labs/initia
 cd initia
-git checkout v0.2.12
+git checkout v0.2.14
 make install
 initiad version --long
 
