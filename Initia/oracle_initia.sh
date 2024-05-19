@@ -69,11 +69,12 @@ sudo systemctl enable initia-oracle && \
 sudo systemctl restart initia-oracle
 
 echo "Enable Oracle Vote Extension"
+echo 'ORACLE_GRPC_ENDPOINT="0.0.0.0:8080"' >> ~/.bash_profile
 echo 'ORACLE_CLIENT_TIMEOUT="500ms"' >> ~/.bash_profile
 echo 'NODE_APP_CONFIG_PATH="$HOME/.initia/config/app.toml"' >> ~/.bash_profile
 
 sed -i '/\[oracle\]/!b;n;c\enabled = "true"' $NODE_APP_CONFIG_PATH
-sed -i "/oracle_address =/c\oracle_address = \"$NODE_GRPC_ENDPOINT\"" $NODE_APP_CONFIG_PATH
+sed -i "/oracle_address =/c\oracle_address = \"$ORACLE_GRPC_ENDPOINT\"" $NODE_APP_CONFIG_PATH
 sed -i "/client_timeout =/c\client_timeout = \"$ORACLE_CLIENT_TIMEOUT\"" $NODE_APP_CONFIG_PATH
 sed -i '/metrics_enabled =/c\metrics_enabled = "false"' $NODE_APP_CONFIG_PATH
 
