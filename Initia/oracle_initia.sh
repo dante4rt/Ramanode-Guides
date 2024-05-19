@@ -77,3 +77,5 @@ sed -i '/\[oracle\]/!b;n;c\enabled = "true"' $NODE_APP_CONFIG_PATH
 sed -i "/oracle_address =/c\oracle_address = \"$ORACLE_GRPC_ENDPOINT\"" $NODE_APP_CONFIG_PATH
 sed -i "/client_timeout =/c\client_timeout = \"$ORACLE_CLIENT_TIMEOUT\"" $NODE_APP_CONFIG_PATH
 sed -i '/metrics_enabled =/c\metrics_enabled = "false"' $NODE_APP_CONFIG_PATH
+
+echo "Oracle setup completed successfully."
