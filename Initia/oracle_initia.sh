@@ -35,7 +35,7 @@ make build && \
 sudo mv build/slinky /usr/local/bin/
 
 echo "4. Set Up Variables"
-echo 'export NODE_GRPC_ENDPOINT="0.0.0.0:9090"' >> ~/.bash_profile
+echo 'export NODE_GRPC_ENDPOINT=$(grep "localhost" $HOME/.initia/config/app.toml | grep -Po "(?<=\"localhost:)[0-9]+")' >> ~/.bash_profile
 echo 'export ORACLE_CONFIG_PATH="$HOME/slinky/config/core/oracle.json"' >> ~/.bash_profile
 echo 'export ORACLE_GRPC_PORT="8080"' >> ~/.bash_profile
 echo 'export ORACLE_METRICS_ENDPOINT="0.0.0.0:8002"' >> ~/.bash_profile
