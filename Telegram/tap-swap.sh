@@ -20,14 +20,12 @@ git clone https://github.com/shamhi/TapSwapBot.git || { echo "Failed to clone re
 cd TapSwapBot || { echo "Failed to change directory."; exit 1; }
 
 echo "Setting up the virtual environment..."
-if ! command -v python3.10 &> /dev/null; then
-    echo "Python 3.10 is not installed. Installing now..."
-    sudo apt update
-    sudo apt install software-properties-common -y
-    sudo add-apt-repository ppa:deadsnakes/ppa -y
-    sudo apt update
-    sudo apt install python3.10 python3.10-venv python3.10-dev -y || { echo "Failed to install Python 3.10."; exit 1; }
-fi
+echo "Installing Python 3.10 and necessary packages..."
+sudo apt update
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3.10-dev -y || { echo "Failed to install Python 3.10 and necessary packages."; exit 1; }
 
 python3.10 -m venv venv || { echo "Failed to create virtual environment."; exit 1; }
 source venv/bin/activate || { echo "Failed to activate virtual environment."; exit 1; }
@@ -44,5 +42,4 @@ sed -i "s/^API_ID=.*/API_ID=$API_ID/" .env
 sed -i "s/^API_HASH=.*/API_HASH=$API_HASH/" .env
 
 echo "You can edit other configurations in the .env file."
-
 echo "Setup completed successfully."
