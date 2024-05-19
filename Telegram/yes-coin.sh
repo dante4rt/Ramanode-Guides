@@ -10,6 +10,11 @@ read API_ID
 echo "Please enter your API_HASH (You can get it from https://my.telegram.org/auth?to=apps):"
 read API_HASH
 
+if [ -d "YesCoinBot" ]; then
+    echo "Removing existing YesCoinBot directory..."
+    rm -rf YesCoinBot || { echo "Failed to remove existing YesCoinBot directory."; exit 1; }
+fi
+
 echo "Cloning the YesCoinBot repository..."
 git clone https://github.com/shamhi/YesCoinBot.git || { echo "Failed to clone repository."; exit 1; }
 cd YesCoinBot || { echo "Failed to change directory."; exit 1; }

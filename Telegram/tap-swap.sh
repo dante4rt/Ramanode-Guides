@@ -10,6 +10,11 @@ read API_ID
 echo "Please enter your API_HASH (You can get it from https://my.telegram.org/auth?to=apps):"
 read API_HASH
 
+if [ -d "TapSwapBot" ]; then
+    echo "Removing existing TapSwapBot directory..."
+    rm -rf TapSwapBot || { echo "Failed to remove existing TapSwapBot directory."; exit 1; }
+fi
+
 echo "Cloning the TapSwapBot repository..."
 git clone https://github.com/shamhi/TapSwapBot.git || { echo "Failed to clone repository."; exit 1; }
 cd TapSwapBot || { echo "Failed to change directory."; exit 1; }
