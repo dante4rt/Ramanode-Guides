@@ -14,7 +14,7 @@ sudo apt install -y tmux
 sudo echo "deb http://security.ubuntu.com/ubuntu jammy-security main" >> /etc/apt/sources.list
 sudo apt -qy update && sudo apt -qy install libc6
 
-rm -rf nubit-node
+rm -rf nubit-node $HOME/.nubit-light-nubit-alphatestnet-1
 
 tmux new -s nubit "curl -sL1 https://nubit.sh | bash"
 
