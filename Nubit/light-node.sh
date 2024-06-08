@@ -5,17 +5,17 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-cd $HOME || exit 1
+cd $HOME
 
-sudo apt update || exit 1
-sudo apt --fix-broken install -y || exit 1
-sudo apt upgrade -y || exit 1
-sudo apt install -y tmux || exit 1
+sudo apt update
+sudo apt --fix-broken install -y
+sudo apt upgrade -y
+sudo apt install -y tmux
 sudo echo "deb http://security.ubuntu.com/ubuntu jammy-security main" >> /etc/apt/sources.list
-sudo apt -qy update && sudo apt -qy install libc6 || exit 1
+sudo apt -qy update && sudo apt -qy install libc6
 
 rm -rf nubit-node
 
-tmux new -s nubit "curl -sL1 https://nubit.sh | bash" || exit 1
+tmux new -s nubit "curl -sL1 https://nubit.sh | bash"
 
 echo "Script execution completed successfully. Subscribe: https://t.me/HappyCuanAirdrop"
