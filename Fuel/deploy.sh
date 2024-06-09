@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "Showing HCA logo..."
 wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh && ./loader.sh
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
@@ -22,6 +20,10 @@ print_color() {
   echo -e "${COLOR}${TEXT}${NC}"
 }
 
+set -e
+cd $HOME
+rm -rf fuel-project
+
 print_color "cyan" "Updating and installing dependencies..."
 sudo apt update && sudo apt upgrade -y
 sudo apt-get install screen git nano -y
@@ -38,13 +40,22 @@ print_color "green" "Rust installed successfully!"
 print_color "cyan" "Installing Fuel Toolchain..."
 curl https://install.fuel.network | sh -s -- -y
 
-if [ -f /root/.bashrc ]; then
+ls -a /root/ | grep "^\.bashrc$"
+if [ $? -eq 0 ]; then
   source /root/.bashrc
-elif [ -f /home/runner/.bashrc ]; then
+fi
+
+ls -a /home/runner/ | grep "^\.bashrc$"
+if [ $? -eq 0 ]; then
   source /home/runner/.bashrc
-elif [ -f $HOME/.bashrc ]; then
+fi
+
+ls -a $HOME/ | grep "^\.bashrc$"
+if [ $? -eq 0 ]; then
   source $HOME/.bashrc
-else
+fi
+
+if [ ! -f /root/.bashrc ] && [ ! -f /home/runner/.bashrc ] && [ ! -f $HOME/.bashrc ]; then
   print_color "red" "No .bashrc file found to source."
   exit 1
 fi
