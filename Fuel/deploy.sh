@@ -8,7 +8,7 @@ sleep 2
 print_color() {
   COLOR=$1
   TEXT=$2
-  NC='\033[0m' 
+  NC='\033[0m'
   case $COLOR in
     "red") COLOR='\033[0;31m' ;;
     "green") COLOR='\033[0;32m' ;;
@@ -18,6 +18,16 @@ print_color() {
     "magenta") COLOR='\033[0;35m' ;;
   esac
   echo -e "${COLOR}${TEXT}${NC}"
+}
+
+show_path_instructions() {
+  print_color "cyan" "The Fuel toolchain is installed and up to date"
+  print_color "cyan" "fuelup 0.25.0 has been installed in /root/.fuelup/bin. To fetch the latest toolchain containing the forc and fuel-core binaries, run 'fuelup toolchain install latest'. To generate completions for your shell, run 'fuelup completions --shell=SHELL'."
+  print_color "yellow" "You might have to add /root/.fuelup/bin to PATH:"
+  print_color "yellow" "bash/zsh:"
+  print_color "yellow" 'export PATH="${HOME}/.fuelup/bin:${PATH}"'
+  print_color "yellow" "fish:"
+  print_color "yellow" "fish_add_path ~/.fuelup/bin"
 }
 
 set -e
@@ -37,30 +47,20 @@ rustup default stable
 print_color "green" "Rust installed successfully!"
 
 print_color "cyan" "Installing Fuel Toolchain..."
-curl https://install.fuel.network | sh -s -- -y 
+curl https://install.fuel.network | sh -s -- -y
 
-source_if_exists() {
-  if [ -f "$1/.bashrc" ]; then
-    source "$1/.bashrc"
-    echo "export PATH=\"$HOME/.fuelup/bin:\$PATH\"" >> "$1/.bashrc"
-    source "$1/.bashrc"
-  fi
-}
-
-source_if_exists "/home/codespace"
-source_if_exists "/home/runner"
-source_if_exists "$HOME"
-source_if_exists "/root"
-
-if ! grep -q ".fuelup/bin" <<< "$PATH"; then
-  print_color "red" "Fuel toolchain path not found in PATH variable."
-  exit 1
-fi
+export PATH="$HOME/.fuelup/bin:$PATH"
 
 fuelup toolchain install latest
 fuelup self update
 fuelup update && fuelup default latest
 print_color "green" "Fuel Toolchain installed successfully!"
+
+if ! command -v forc &> /dev/null; then
+  print_color "red" "Fuel toolchain path not found in PATH variable."
+  show_path_instructions
+  exit 1
+fi
 
 print_color "cyan" "Creating Fuel project..."
 mkdir -p fuel-project && cd fuel-project
@@ -115,6 +115,7 @@ forc wallet accounts
 
 print_color "cyan" "Deploying contract to testnet..."
 forc deploy --testnet
+print_color "yellow" "Enter '0' as Index and click 'y' to confirm deployment."
 
 print_color "green" "Contract deployed successfully!"
 
