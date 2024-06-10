@@ -28,7 +28,6 @@ print_color "cyan" "Updating and installing dependencies..."
 sudo apt update && sudo apt upgrade -y
 sudo apt-get install screen git nano -y
 
-
 print_color "cyan" "Installing Rust..."
 curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
 source $HOME/.cargo/env
@@ -38,25 +37,23 @@ rustup default stable
 print_color "green" "Rust installed successfully!"
 
 print_color "cyan" "Installing Fuel Toolchain..."
-curl https://install.fuel.network | sh -s -- -y
+curl https://install.fuel.network | sh -s -- -y 
 
-ls -a /root/ | grep "^\.bashrc$"
-if [ $? -eq 0 ]; then
-  source /root/.bashrc
-fi
+source_if_exists() {
+  if [ -f "$1/.bashrc" ]; then
+    source "$1/.bashrc"
+    echo "export PATH=\"$HOME/.fuelup/bin:\$PATH\"" >> "$1/.bashrc"
+    source "$1/.bashrc"
+  fi
+}
 
-ls -a /home/runner/ | grep "^\.bashrc$"
-if [ $? -eq 0 ]; then
-  source /home/runner/.bashrc
-fi
+source_if_exists "/home/codespace"
+source_if_exists "/home/runner"
+source_if_exists "$HOME"
+source_if_exists "/root"
 
-ls -a $HOME/ | grep "^\.bashrc$"
-if [ $? -eq 0 ]; then
-  source $HOME/.bashrc
-fi
-
-if [ ! -f /root/.bashrc ] && [ ! -f /home/runner/.bashrc ] && [ ! -f $HOME/.bashrc ]; then
-  print_color "red" "No .bashrc file found to source."
+if ! grep -q ".fuelup/bin" <<< "$PATH"; then
+  print_color "red" "Fuel toolchain path not found in PATH variable."
   exit 1
 fi
 
