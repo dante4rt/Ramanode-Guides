@@ -115,7 +115,6 @@ forc wallet accounts
 
 print_color "cyan" "Deploying contract to testnet..."
 forc deploy --testnet
-print_color "yellow" "Enter '0' as Index and click 'y' to confirm deployment."
 
 print_color "green" "Contract deployed successfully!"
 
