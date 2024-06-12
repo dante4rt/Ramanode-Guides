@@ -55,7 +55,7 @@ After=network.target
 [Service]
 User=$USER
 Type=simple
-ExecStart=$(which slinky) --oracle-config-path $ORACLE_CONFIG_PATH
+ExecStart=$(which slinky) --oracle-config-path $ORACLE_CONFIG_PATH --market-map-endpoint 0.0.0.0:10690
 Restart=on-failure
 LimitNOFILE=65535
 
