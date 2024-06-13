@@ -30,9 +30,6 @@ rustup target add riscv32i-unknown-none-elf
 print_message "Installing Nexus zkVM"
 cargo install --git https://github.com/nexus-xyz/nexus-zkvm nexus-tools --tag 'v1.0.0'
 
-print_message "Verifying the Nexus zkVM installation"
-cargo nexus --help
-
 print_message "Creating a new Nexus project"
 cargo nexus new nexus-project
 
