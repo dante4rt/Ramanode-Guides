@@ -5,8 +5,6 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-cd $HOME
-
 function print_message() {
     echo "===================================================================="
     echo "$1"
@@ -35,6 +33,7 @@ cargo nexus new nexus-project
 
 print_message "Editing the main.rs file"
 cd nexus-project/src
+
 cat > main.rs <<EOL
 #![no_std]
 #![no_main]
