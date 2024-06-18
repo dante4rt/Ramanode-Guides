@@ -18,7 +18,7 @@ echo "Downloading and installing ALignedProof..."
 curl -L https://raw.githubusercontent.com/yetanotherco/aligned_layer/main/batcher/aligned/install_aligned.sh | bash
 
 echo "Sourcing the .bashrc to update the environment variables..."
-source /root/.bashrc
+source "$HOME/.bashrc"
 
 echo "Downloading an example SP1 proof file with its ELF file..."
 curl -L https://raw.githubusercontent.com/yetanotherco/aligned_layer/main/batcher/aligned/get_proof_test_files.sh | bash
