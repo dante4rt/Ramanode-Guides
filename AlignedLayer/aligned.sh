@@ -14,8 +14,25 @@ sudo apt upgrade -y
 echo "Installing curl..."
 sudo apt-get install curl -y
 
+if ! ldconfig -p | grep -q libssl.so.3; then
+    echo "libssl.so.3 not found. Installing OpenSSL 3.0.0..."
+    sudo apt-get install -y build-essential checkinstall zlib1g-dev
+    cd /usr/local/src
+    sudo wget https://www.openssl.org/source/openssl-3.0.0.tar.gz
+    sudo tar -zxf openssl-3.0.0.tar.gz
+    cd openssl-3.0.0
+    sudo ./config
+    sudo make
+    sudo make install
+    sudo ldconfig
+else
+    echo "libssl.so.3 found. Skipping OpenSSL installation."
+fi
+
 echo "Downloading and installing ALignedProof..."
 curl -L https://raw.githubusercontent.com/yetanotherco/aligned_layer/main/batcher/aligned/install_aligned.sh | bash
+
+ALIGNED_BIN_DIR="$HOME/.aligned/bin"
 
 case $SHELL in
 */zsh)
@@ -41,14 +58,25 @@ esac
 
 if [[ ":$PATH:" != *":${ALIGNED_BIN_DIR}:"* ]]; then
     if [[ "$PREF_SHELL" == "fish" ]]; then
-        echo >> "$PROFILE" && echo "fish_add_path -a $ALIGNED_BIN_DIR" >> "$PROFILE"
+        echo "fish_add_path -a $ALIGNED_BIN_DIR" >> "$PROFILE"
     else
-        echo >> "$PROFILE" && echo "export PATH=\"\$PATH:$ALIGNED_BIN_DIR\"" >> "$PROFILE"
+        echo "export PATH=\"\$PATH:$ALIGNED_BIN_DIR\"" >> "$PROFILE"
     fi
 fi
 
 echo "Sourcing the profile to update the environment variables..."
 source "$PROFILE"
+
+if ! command -v aligned &> /dev/null
+then
+    echo "aligned: command not found in PATH, trying to source profile directly"
+    source "$HOME/.bashrc" || source "$HOME/.zshrc" || source "$HOME/.config/fish/config.fish" || source "$HOME/.profile"
+    if ! command -v aligned &> /dev/null
+    then
+        echo "aligned: command still not found in PATH, please check the installation and PATH configuration."
+        exit 1
+    fi
+fi
 
 echo "Downloading an example SP1 proof file with its ELF file..."
 curl -L https://raw.githubusercontent.com/yetanotherco/aligned_layer/main/batcher/aligned/get_proof_test_files.sh | bash
