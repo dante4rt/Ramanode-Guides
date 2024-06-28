@@ -51,11 +51,11 @@ sudo chmod -R 777 worker-data head-data
 sudo docker run -it --entrypoint=bash -v $(pwd)/head-data:/data alloranetwork/allora-inference-base:latest -c "mkdir -p /data/keys && (cd /data/keys && allora-keys)"
 sudo docker run -it --entrypoint=bash -v $(pwd)/worker-data:/data alloranetwork/allora-inference-base:latest -c "mkdir -p /data/keys && (cd /data/keys && allora-keys)"
 
-echo "Your head-id is this: "
+echo "Your head-id is: "
 cat head-data/keys/identity
 echo
 
-read -p "Enter your head-id: " head_id
+read -p "Re-enter your head-id: " head_id
 read -p "Enter your wallet seed phrase: " wallet_seed
 
 cat <<EOF > docker-compose.yml
