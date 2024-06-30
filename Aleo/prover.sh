@@ -68,7 +68,7 @@ generate_aleo_account() {
 
 run_prover() {
     cd $HOME/snarkOS || { log_error "Failed to change directory to $HOME/snarkOS."; exit 1; }
-    ./run-prover.sh || { log_error "Failed to execute run-prover.sh."; exit 1; }
+    ./run-prover.sh --network 1 || { log_error "Failed to execute run-prover.sh."; exit 1; }
 }
 
 check_rust
