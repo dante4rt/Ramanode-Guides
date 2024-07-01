@@ -41,18 +41,6 @@ else
     echo "Solana CLI is already installed. Skipping installation."
 fi
 
-if ! command -v node &> /dev/null; then
-    execute_and_prompt "Updating Node.js to the latest version using NVM..." \
-        "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash && \
-        export NVM_DIR=\"$HOME/.nvm\" && \
-        [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && \
-        [ -s \"$NVM_DIR/bash_completion\" ] && . \"$NVM_DIR/bash_completion\" && \
-        nvm install --lts && nvm use --lts"
-    execute_and_prompt "Checking Node.js version..." "node -v"
-else
-    echo "Node.js is already installed. Skipping installation."
-fi
-
 if ! command -v npm &> /dev/null; then
     execute_and_prompt "Installing npm..." "sudo apt-get install -y npm"
     execute_and_prompt "Checking npm version..." "npm --version"
