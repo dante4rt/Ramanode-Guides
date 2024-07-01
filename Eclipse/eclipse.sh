@@ -81,13 +81,17 @@ execute_and_prompt "Cloning Eclipse Bridge Script..." "git clone https://github.
 
 solana_address=$(prompt "Enter your Solana Address: ")
 ethereum_private_key=$(prompt "Enter your Ethereum Private Key: ")
-repeat_count=$(prompt "Enter the number of times to repeat the transaction (recommended 4-5): ")
+execute_and_prompt "Running bridge script..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e 3000000 100000 $ethereum_private_key https://rpc.sepolia.org"
 
-gas_limit="3000000"
-gas_price="100000"
-
-for ((i=1; i<=repeat_count; i++)); do
-    execute_and_prompt "Running bridge script (Iteration $i)..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e $gas_limit $gas_price ${ethereum_private_key:2} https://rpc.sepolia.org"
+echo "REPEAT TRANSACTIONS BETWEEN 4 OR 5 TIMES"
+repeat_times=$(prompt "How many times do you want to repeat? (Recommended: 4-5)")
+for ((i=1; i<=$repeat_times; i++)); do
+    execute_and_prompt "Checking Solana balance (attempt $i)..." "solana balance"
+    execute_and_prompt "Creating token..." "spl-token create-token --enable-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+    token_address=$(prompt "Enter your Token Address: ")
+    execute_and_prompt "Creating token account..." "spl-token create-account $token_address"
+    execute_and_prompt "Minting token..." "spl-token mint $token_address 10000"
+    execute_and_prompt "Checking token accounts..." "spl-token accounts"
 done
 
 execute_and_prompt "Checking Solana balance..." "solana balance"
