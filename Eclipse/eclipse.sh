@@ -83,7 +83,7 @@ solana_address=$(prompt "Enter your Solana Address: ")
 ethereum_private_key=$(prompt "Enter your Ethereum Private Key: ")
 repeat_count=$(prompt "Enter the number of times to repeat the transaction (recommended 4-5): ")
 for ((i=1; i<=repeat_count; i++)); do
-    execute_and_prompt "Running bridge script (Iteration $i)..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e 3000000 100000 $ethereum_private_key https://rpc.sepolia.org"
+    execute_and_prompt "Running bridge script (Iteration $i)..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e 3000000 100000 ${ethereum_private_key:2} https://rpc.sepolia.org"
 done
 
 execute_and_prompt "Checking Solana balance..." "solana balance"
