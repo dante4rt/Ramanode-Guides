@@ -43,7 +43,11 @@ fi
 
 if ! command -v node &> /dev/null; then
     execute_and_prompt "Updating Node.js to the latest version using NVM..." \
-        "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash && source ~/.bashrc && nvm install --lts && nvm use --lts"
+        "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash && \
+        export NVM_DIR=\"$HOME/.nvm\" && \
+        [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && \
+        [ -s \"$NVM_DIR/bash_completion\" ] && . \"$NVM_DIR/bash_completion\" && \
+        nvm install --lts && nvm use --lts"
     execute_and_prompt "Checking Node.js version..." "node -v"
 else
     echo "Node.js is already installed. Skipping installation."
@@ -71,7 +75,6 @@ else
 fi
 
 wallet_path=$(prompt "Enter the path to save your Solana wallet (e.g., /path-to-wallet/my-wallet.json): ")
-
 execute_and_prompt "Creating Solana wallet..." "solana-keygen new -o $wallet_path"
 
 execute_and_prompt "Updating Solana configuration..." "solana config set --url https://testnet.dev2.eclipsenetwork.xyz/ && solana config set --keypair $wallet_path"
@@ -82,26 +85,33 @@ echo -e "Use the following faucets:\nhttps://faucet.quicknode.com/ethereum/sepol
 read -p "Press [Enter] to continue..."
 
 if [ -d "testnet-deposit" ]; then
-    echo "Removing existing 'testnet-deposit' directory..."
-    rm -rf testnet-deposit
+    execute_and_prompt "Removing existing testnet-deposit folder..." "rm -rf testnet-deposit"
 fi
 
 execute_and_prompt "Cloning Eclipse Bridge Script..." "git clone https://github.com/Eclipse-Laboratories-Inc/testnet-deposit && cd testnet-deposit && npm install"
 
 solana_address=$(prompt "Enter your Solana Address: ")
 ethereum_private_key=$(prompt "Enter your Ethereum Private Key: ")
-execute_and_prompt "Running bridge script..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e 3000000 100000 $ethereum_private_key https://rpc.sepolia.org"
-
-echo "REPEAT TRANSACTIONS BETWEEN 4 OR 5 TIMES"
-repeat_times=$(prompt "How many times do you want to repeat? (Recommended: 4-5)")
-for ((i=1; i<=$repeat_times; i++)); do
-    execute_and_prompt "Checking Solana balance (attempt $i)..." "solana balance"
-    execute_and_prompt "Creating token..." "spl-token create-token --enable-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
-    token_address=$(prompt "Enter your Token Address: ")
-    execute_and_prompt "Creating token account..." "spl-token create-account $token_address"
-    execute_and_prompt "Minting token..." "spl-token mint $token_address 10000"
-    execute_and_prompt "Checking token accounts..." "spl-token accounts"
+repeat_count=$(prompt "Enter the number of times to repeat the transaction (recommended 4-5): ")
+for ((i=1; i<=repeat_count; i++)); do
+    execute_and_prompt "Running bridge script (Iteration $i)..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e 3000000 100000 $ethereum_private_key https://rpc.sepolia.org"
 done
+
+execute_and_prompt "Checking Solana balance..." "solana balance"
+
+balance=$(solana balance | awk '{print $1}')
+if [ "$balance" == "0" ]; then
+    echo "Your Solana balance is 0. Please deposit funds and try again."
+    exit 1
+fi
+
+execute_and_prompt "Creating token..." "spl-token create-token --enable-metadata -p TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+
+token_address=$(prompt "Enter your Token Address: ")
+execute_and_prompt "Creating token account..." "spl-token create-account $token_address"
+
+execute_and_prompt "Minting token..." "spl-token mint $token_address 10000"
+execute_and_prompt "Checking token accounts..." "spl-token accounts"
 
 echo -e "\nSubmit feedback at: https://docs.google.com/forms/d/e/1FAIpQLSfJQCFBKHpiy2HVw9lTjCj7k0BqNKnP6G1cd0YdKhaPLWD-AA/viewform?pli=1"
 execute_and_prompt "Checking program address..." "solana address"
