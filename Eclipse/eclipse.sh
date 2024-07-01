@@ -57,6 +57,7 @@ fi
 
 if ! command -v anchor &> /dev/null; then
     execute_and_prompt "Installing Anchor CLI..." "cargo install --git https://github.com/project-serum/anchor anchor-cli --locked"
+    export PATH="$HOME/.cargo/bin:$PATH"
     execute_and_prompt "Checking Anchor version..." "anchor --version"
 else
     echo "Anchor CLI is already installed. Skipping installation."
