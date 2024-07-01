@@ -18,7 +18,7 @@ execute_and_prompt() {
 
 cd $HOME
 
-echo "Eclipse Deployment Program"
+echo "Eclipse Deployment Program by Happy Cuan Airdrop"
 
 execute_and_prompt "Updating your dependencies..." "sudo apt update && sudo apt upgrade -y"
 
@@ -102,4 +102,4 @@ execute_and_prompt "Checking token accounts..." "spl-token accounts"
 echo -e "\nSubmit feedback at: https://docs.google.com/forms/d/e/1FAIpQLSfJQCFBKHpiy2HVw9lTjCj7k0BqNKnP6G1cd0YdKhaPLWD-AA/viewform?pli=1"
 execute_and_prompt "Checking program address..." "solana address"
 
-echo "Program completed."
+echo "Program completed. Subscribe: https://t.me/HappyCuanAirdrop"
