@@ -48,13 +48,6 @@ else
     echo "npm is already installed. Skipping installation."
 fi
 
-if ! command -v yarn &> /dev/null; then
-    execute_and_prompt "Installing Yarn..." "npm install --global yarn"
-    execute_and_prompt "Checking Yarn version..." "yarn --version"
-else
-    echo "Yarn is already installed. Skipping installation."
-fi
-
 if ! command -v anchor &> /dev/null; then
     execute_and_prompt "Installing Anchor CLI..." "cargo install --git https://github.com/project-serum/anchor anchor-cli --locked"
     export PATH="$HOME/.cargo/bin:$PATH"
