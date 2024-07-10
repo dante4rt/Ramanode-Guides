@@ -275,7 +275,7 @@ echo -e "\033[1;34mCreating a new filesystem with ethfs-cli...\033[0m"
 echo
 echo -e "\033[1;35mCOPY THIS DIRECTORY ADDRESS AND SAVE IT SOMEWHERE\033[0m"
 echo
-ethfs-cli create -p "$PRIVATE_KEY" -c 11155111 || { echo "Failed to create filesystem with ethfs-cli"; exit 1; }
+ethfs-cli create -p "$PRIVATE_KEY" -c 3333 || { echo "Failed to create filesystem with ethfs-cli"; exit 1; }
 echo
 
 read -p 'Enter the flat directory address: ' FLAT_DIR_ADDRESS
@@ -283,7 +283,7 @@ echo
 
 echo -e "\033[1;34mUploading 'hca' folder with ethfs-cli...\033[0m"
 echo
-ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS" -c 11155111 -p "$PRIVATE_KEY" -t 1 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
+ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS" -c 3333 -p "$PRIVATE_KEY" -t 1 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
 echo
 
 echo -e "\033[1;34mInstalling eth-blob-uploader globally...\033[0m"
@@ -303,7 +303,7 @@ echo -e "\033[1;34mCreating a new filesystem again with ethfs-cli...\033[0m"
 echo
 echo -e "\033[1;35mCOPY THIS DIRECTORY ADDRESS AND SAVE IT SOMEWHERE\033[0m"
 echo
-ethfs-cli create -p "$PRIVATE_KEY" -c 11155111 || { echo "Failed to create filesystem with ethfs-cli"; exit 1; }
+ethfs-cli create -p "$PRIVATE_KEY" -c 3333 || { echo "Failed to create filesystem with ethfs-cli"; exit 1; }
 echo
 
 read -p 'Enter the flat directory address: ' FLAT_DIR_ADDRESS2
@@ -313,7 +313,7 @@ echo -e "\033[1;34mUploading 'hca' folder again with ethfs-cli...\033[0m"
 echo
 echo -e "\033[1;31mThis transaction may get stuck, You should wait 2 mins. If it is still the same, start the script from the beginning\033[0m"
 echo
-ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS2" -c 11155111 -p "$PRIVATE_KEY" -t 2 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
+ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS2" -c 3333 -p "$PRIVATE_KEY" -t 2 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
 echo
 
 echo -e "\033[1;32mThis is your application’s web3 link:\033[0m https://"$FLAT_DIR_ADDRESS2".3333.w3link.io/app.html"
