@@ -7,12 +7,21 @@ sleep 2
 
 WORKDIR=$(pwd)
 
-echo -e "\033[1;34mCreating folder 'hca'...\033[0m"
-mkdir -p $WORKDIR/hca && cd $WORKDIR/hca || { echo "Failed to create or navigate to 'hca' folder"; exit 1; }
+echo -e "\033[1;34mChecking if 'hca' folder exists...\033[0m"
+if [ -d "$WORKDIR/hca" ]; then
+  echo "'hca' folder already exists, skipping creation."
+else
+  echo "Creating folder 'hca'..."
+  mkdir -p $WORKDIR/hca && cd $WORKDIR/hca || { echo "Failed to create or navigate to 'hca' folder"; exit 1; }
+fi
 echo
 
-echo -e "\033[1;34mCreating 'app.html' file...\033[0m"
-cat <<EOL > app.html
+echo -e "\033[1;34mChecking if 'app.html' file exists...\033[0m"
+if [ -f "$WORKDIR/hca/app.html" ]; then
+  echo "'app.html' file already exists, skipping creation."
+else
+  echo "Creating 'app.html' file..."
+  cat <<EOL > "$WORKDIR/hca/app.html"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,12 +62,11 @@ cat <<EOL > app.html
 </head>
 <body>
     <div id="content">Loading greeting...</div>
-    <img src="https://i.ibb.co.com/nsY5vrJ/photo-2024-07-13-11-25-11.jpg" alt="Happy Cuan Anime">
+    <img src="https://i.ibb.co/nsY5vrJ/photo-2024-07-13-11-25-11.jpg" alt="Happy Cuan Anime">
 </body>
 </html>
 EOL
-
-echo -e "\033[1;34mFolder 'hca' and file 'app.html' created successfully.\033[0m"
+fi
 echo
 
 read -sp 'Enter your private key: ' PRIVATE_KEY
@@ -67,11 +75,23 @@ echo
 read -p 'Enter your EVM wallet address: ' EVM_WALLET_ADDRESS
 echo
 
-echo -e "\033[1;34mInstalling ethfs-cli...\033[0m"
-npm install -g ethfs-cli || { echo "Failed to install ethfs-cli"; exit 1; }
+echo -e "\033[1;34mChecking if ethfs-cli is installed...\033[0m"
+if command -v ethfs-cli &> /dev/null; then
+  echo "ethfs-cli is already installed, skipping installation."
+else
+  echo "Installing ethfs-cli..."
+  npm install -g ethfs-cli || { echo "Failed to install ethfs-cli"; exit 1; }
+fi
+echo
 
-echo -e "\033[1;34mInstalling eth-blob-uploader...\033[0m"
-npm install -g eth-blob-uploader || { echo "Failed to install eth-blob-uploader"; exit 1; }
+echo -e "\033[1;34mChecking if eth-blob-uploader is installed...\033[0m"
+if command -v eth-blob-uploader &> /dev/null; then
+  echo "eth-blob-uploader is already installed, skipping installation."
+else
+  echo "Installing eth-blob-uploader..."
+  npm install -g eth-blob-uploader || { echo "Failed to install eth-blob-uploader"; exit 1; }
+fi
+echo
 
 echo -e "\033[1;34mCreating a filesystem with ethfs-cli...\033[0m"
 echo -e "\033[1;35mCOPY THIS DIRECTORY ADDRESS AND SAVE IT SOMEWHERE\033[0m"
@@ -81,18 +101,12 @@ echo
 read -p 'Enter the flat directory address: ' FLAT_DIR_ADDRESS
 echo
 
-echo -e "\033[1;34mChecking if 'hca' folder exists...\033[0m"
-if [ ! -d "$WORKDIR/hca" ]; then
-  echo "'hca' folder does not exist in $WORKDIR"
-  exit 1
-fi
-
 echo -e "\033[1;34mUploading 'hca' folder with ethfs-cli...\033[0m"
 ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS" -c 11155111 -p "$PRIVATE_KEY" -t 2 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
 echo
 
 echo -e "\033[1;34mUploading 'app.html' with eth-blob-uploader...\033[0m"
-eth-blob-uploader -r http://88.99.30.186:8545 -p "$PRIVATE_KEY" -f "$WORKDIR/hca/app.html" -t "$EVM_WALLET_ADDRESS" || { echo "Failed to upload app.html with eth-blob-uploader"; exit 1; }
+eth-blob-uploader -r https://ramanode.top:8545 -p "$PRIVATE_KEY" -f "$WORKDIR/hca/app.html" -t "$EVM_WALLET_ADDRESS" || { echo "Failed to upload app.html with eth-blob-uploader"; exit 1; }
 echo
 
 echo -e "\033[1;34mCreating a new filesystem again with ethfs-cli...\033[0m"
@@ -102,12 +116,6 @@ echo
 
 read -p 'Enter the flat directory address: ' FLAT_DIR_ADDRESS2
 echo
-
-echo -e "\033[1;34mChecking if 'hca' folder exists again...\033[0m"
-if [ ! -d "$WORKDIR/hca" ]; then
-  echo "'hca' folder does not exist in $WORKDIR"
-  exit 1
-fi
 
 echo -e "\033[1;34mUploading 'hca' folder again with ethfs-cli...\033[0m"
 echo -e "\033[1;31mThis transaction may get stuck. You should wait 2 minutes. If it is still the same, start the script from the beginning\033[0m"
