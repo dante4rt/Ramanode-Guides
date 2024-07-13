@@ -118,4 +118,5 @@ echo -e "\033[1;32mThis is your application’s web3 link:\033[0m https://"$FLAT
 echo
 
 echo -e "\033[1;32mAll tasks completed successfully.\033[0m"
+echo -e "\033[1;32mSubscribe: https://t.me/HappyCuanAirdrop.\033[0m"
 echo
