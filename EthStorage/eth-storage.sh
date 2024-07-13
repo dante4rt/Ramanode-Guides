@@ -118,7 +118,6 @@ read -p 'Enter the flat directory address: ' FLAT_DIR_ADDRESS2
 echo
 
 echo -e "\033[1;34mUploading 'hca' folder again with ethfs-cli...\033[0m"
-echo -e "\033[1;31mThis transaction may get stuck. You should wait 2 minutes. If it is still the same, start the script from the beginning\033[0m"
 ethfs-cli upload -f "$WORKDIR/hca" -a "$FLAT_DIR_ADDRESS2" -c 11155111 -p "$PRIVATE_KEY" -t 2 || { echo "Failed to upload folder with ethfs-cli"; exit 1; }
 echo
 
