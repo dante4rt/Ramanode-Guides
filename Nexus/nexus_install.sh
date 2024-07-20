@@ -26,7 +26,7 @@ print_message "Adding RISC-V target for Rust"
 rustup target add riscv32i-unknown-none-elf
 
 print_message "Installing Nexus zkVM"
-cargo install --git https://github.com/nexus-xyz/nexus-zkvm nexus-tools --tag 'v1.0.0'
+cargo install --git https://github.com/nexus-xyz/nexus-zkvm cargo-nexus --tag 'v0.2.0'
 
 print_message "Creating a new Nexus project"
 cargo nexus new nexus-project
@@ -35,8 +35,7 @@ print_message "Editing the main.rs file"
 cd nexus-project/src
 
 cat > main.rs <<EOL
-#![no_std]
-#![no_main]
+#![cfg_attr(target_arch = "riscv32", no_std, no_main)]
 
 fn fib(n: u32) -> u32 {
     match n {
