@@ -15,6 +15,10 @@ echo "Installation completed."
 
 echo "Creating a Hardhat project..."
 npx hardhat
+
+rm -f contracts/Lock.sol
+echo "Lock.sol removed."
+
 echo "Hardhat project created."
 
 echo "Installing Hardhat toolbox..."
