@@ -10,7 +10,7 @@ clear
 read -p "Enter your Chasm Scout Name : " SCOUTNAME
 read -p "Enter your Scout UID: " SCOUTUID
 read -p "Enter your Webhook API Key: " WEBHOOKAPI
-read -p "Enter your Groq API: " GROQAPI
+read -p "Enter your Groq API Key: " GROQAPI
 
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 sudo apt-get install ca-certificates curl
