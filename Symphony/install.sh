@@ -83,7 +83,8 @@ EOF
     $HOME/.symphonyd/config/app.toml
 
   echo "Starting service and checking node logs..."
-  sudo systemctl start symphony.service && sudo journalctl -u symphony.service -f --no-hostname -o cat
+  screen -S symphony -dm
+  screen -S symphony -p 0 -X stuff 'sudo systemctl start symphony.service && sudo journalctl -u symphony.service -f --no-hostname -o cat\n'
 
 elif [ "$choice" -eq 2 ]; then
   read -p "Enter your validator name: " MONIKER
