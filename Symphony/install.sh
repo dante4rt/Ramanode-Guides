@@ -86,6 +86,10 @@ EOF
   screen -S symphony -dm
   screen -S symphony -p 0 -X stuff 'sudo systemctl start symphony.service && sudo journalctl -u symphony.service -f --no-hostname -o cat\n'
 
+  echo "Installation is complete!"
+  echo "Check your logs with: screen -r symphony"
+  echo "Subscribe: https://t.me/HappyCuanAirdrop"
+
 elif [ "$choice" -eq 2 ]; then
   read -p "Enter your validator name: " MONIKER
   read -p "Enter your validator details: " DETAILS
@@ -113,6 +117,10 @@ elif [ "$choice" -eq 2 ]; then
   --gas auto \
   --fees 800note \
   -y
+
+  echo "Validator has been created!"
+  echo "Check your validator here: https://testnet.ping.pub/symphony/"
+  echo "Subscribe: https://t.me/HappyCuanAirdrop"
 else
   echo "Invalid choice. Please run the script again and choose either 1 or 2."
 fi
