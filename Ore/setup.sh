@@ -19,7 +19,7 @@ cargo install ore-cli
 
 if ! command -v node &> /dev/null; then
     echo "Node.js not found. Installing Node.js..."
-    apt update && apt upgrade -y
+    sudo apt update && sudo apt upgrade -y
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -111,7 +111,14 @@ if [ "$confirm_deposit" != "y" ]; then
     exit 1
 fi
 
-solana config set --url https://api.mainnet-beta.solana.com
+read -p "Do you want to use your own Solana RPC URL? (y/n): " use_custom_rpc
+
+if [ "$use_custom_rpc" == "y" ]; then
+    read -p "Please enter your Solana RPC URL: " custom_rpc_url
+    solana config set --url "$custom_rpc_url"
+else
+    solana config set --url https://api.mainnet-beta.solana.com
+fi
 
 read -p "Please enter the fee (default is 1000): " fee
 fee=${fee:-1000}
