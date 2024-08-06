@@ -1,17 +1,30 @@
-#!/bin/bash
-
 echo "Showing HCA logo..."
 wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh && ./loader.sh
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-curl https://sh.rustup.rs -sSf | sh 
-. "$HOME/.cargo/env"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
+sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
 export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 
-solana-keygen new 
+
+echo "Which wallet do you want to use?"
+echo "1. New Wallet"
+echo "2. Existing Wallet/Recover"
+read -p "Enter your choice (1 or 2): " wallet
+
+if [ "$wallet" == "1" ]; then
+    echo "Generating a new Solana wallet..."
+    solana-keygen new
+elif [ "$wallet" == "2" ]; then
+    echo "Recovering an existing Solana wallet..."
+    solana-keygen recover
+else
+    echo "Invalid choice. Please enter 1 for New Wallet or 2 for Existing Wallet."
+    exit 1
+fi
+
 
 echo "Your Solana wallet address (public key):"
 pubkey=$(solana-keygen pubkey)
@@ -22,13 +35,16 @@ read -p "Once you have deposited the SOL, press 'y' and then ENTER to continue: 
 if [ "$confirm_deposit" != "y" ]; then
     echo "Please deposit at least 0.101 SOL to the address and then run the script again."
     exit 1
+
 fi
 
-sudo apt-get install -y build-essential gcc
+
+solana config set --url https://api.mainnet-beta.solana.com
+
+sudo apt update && sudo apt upgrade -y
+sudo apt-get install -y build-essential gcc cargo
 
 cargo install ore-cli
-
-read -p "Please enter the RPC URL: " rpc_url
 
 read -p "Please enter the fee (default is 1000): " fee
 fee=${fee:-1000}
@@ -42,7 +58,7 @@ cat <<EOF > ore.sh
 while true 
 do 
   echo "Running" 
-  ore --rpc "$rpc_url" --keypair ~/.config/solana/id.json --priority-fee $fee mine --threads $threads
+  ore mine --priority-fee $fee --threads $threads
   echo "Exited" 
 done 
 EOF
@@ -52,3 +68,4 @@ chmod +x ore.sh
 ./ore.sh
 
 echo "Mining process started. Check ore.sh for details."
+echo "Subscribe: https://t.me/HappyCuanAirdrop"
