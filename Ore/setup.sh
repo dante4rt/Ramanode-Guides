@@ -38,7 +38,6 @@ if [ "$confirm_deposit" != "y" ]; then
 
 fi
 
-
 solana config set --url https://api.mainnet-beta.solana.com
 
 sudo apt update && sudo apt upgrade -y
