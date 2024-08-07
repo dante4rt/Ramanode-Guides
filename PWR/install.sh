@@ -55,7 +55,7 @@ echo $password | sudo tee password
 SERVER_IP=$(hostname -I | awk '{print $1}')
 
 screen -S pwr -dm
-screen -S pwr -p 0 -X stuff 'sudo java -jar validator.jar password $SERVER_IP --compression-level 0\n'
+screen -S pwr -p 0 -X stuff $'sudo java -jar validator.jar password '$SERVER_IP' --compression-level 0\n'
 
 echo "Validator node is now running in the background."
 echo "Check it using: screen -Rd pwr"
