@@ -13,7 +13,7 @@ curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/lo
 sleep 2
 
 sudo apt update && sudo apt upgrade -y
-sudo apt-get install -y build-essential gcc cargo
+sudo apt-get install -y build-essential gcc cargo pkg-config libssl-dev
 
 cargo install ore-cli
 
