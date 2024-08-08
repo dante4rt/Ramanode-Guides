@@ -120,11 +120,20 @@ else
     solana config set --url https://api.mainnet-beta.solana.com
 fi
 
-read -p "Please enter the fee (default is 1000): " fee
-fee=${fee:-1000}
+read -p "Please enter the fee (default is 500,000 microlamports): " fee
+fee=${fee:-500000}
 
-read -p "Please enter the number of threads (default is 4): " threads
-threads=${threads:-4}
+read -p "Please enter the number of cores (default is 4): " cores
+cores=${cores:-4}
+
+read -p "Do you want to use a dynamic fee strategy? (y/n): " use_dynamic_fee
+if [ "$use_dynamic_fee" == "y" ]; then
+    read -p "Please enter the RPC URL for dynamic fee (leave empty to use default): " dynamic_fee_rpc
+    dynamic_fee_flag="--dynamic-fee-strategy"
+    [ -n "$dynamic_fee_rpc" ] && dynamic_fee_flag="$dynamic_fee_flag --dynamic-fee-rpc $dynamic_fee_rpc"
+else
+    dynamic_fee_flag=""
+fi
 
 cat <<EOF > ore.sh
 #!/bin/bash
@@ -132,7 +141,7 @@ cat <<EOF > ore.sh
 while true 
 do 
   echo "Running" 
-  ore mine --priority-fee $fee --threads $threads
+  ore mine --priority-fee $fee --cores $cores $dynamic_fee_flag
   echo "Exited" 
 done 
 EOF
