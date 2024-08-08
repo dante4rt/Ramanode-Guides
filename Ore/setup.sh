@@ -141,7 +141,7 @@ cat <<EOF > ore.sh
 while true 
 do 
   echo "Running" 
-  ore mine --priority-fee $fee --cores $cores $dynamic_fee_flag
+  ore mine --priority-fee $fee $dynamic_fee_flag
   echo "Exited" 
 done 
 EOF
