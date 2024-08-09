@@ -129,7 +129,7 @@ cores=${cores:-4}
 read -p "Do you want to use a dynamic fee strategy? (y/n): " use_dynamic_fee
 if [ "$use_dynamic_fee" == "y" ]; then
     read -p "Please enter the RPC URL for dynamic fee (leave empty to use default): " dynamic_fee_rpc
-    dynamic_fee_flag="--dynamic-fee-strategy"
+    dynamic_fee_flag="--dynamic-fee"
     [ -n "$dynamic_fee_rpc" ] && dynamic_fee_flag="$dynamic_fee_flag --dynamic-fee-rpc $dynamic_fee_rpc"
 else
     dynamic_fee_flag=""
@@ -138,10 +138,25 @@ fi
 cat <<EOF > ore.sh
 #!/bin/bash
 
+retry_count=0
+max_retries=10
+
 while true 
 do 
-  echo "Running" 
+  echo "Running"
   ore mine --priority-fee $fee $dynamic_fee_flag
+  
+  if [ \$? -ne 0 ]; then
+    retry_count=\$((retry_count+1))
+    if [ "\$retry_count" -ge "\$max_retries" ]; then
+        echo "Maximum retries reached. Resigning..."
+        ore mine --priority-fee $fee --resign
+        retry_count=0
+    fi
+  else
+    retry_count=0
+  fi
+
   echo "Exited" 
 done 
 EOF
