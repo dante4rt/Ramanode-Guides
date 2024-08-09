@@ -16,13 +16,23 @@ echo "Installing Git..."
 sudo apt update && sudo apt install -y git-all
 git --version
 
-echo "Installing Rust..."
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-echo "Rust installed. Reconfiguring PATH..."
-. "$HOME/.cargo/env"
+echo "Checking if Rust is installed..."
+if ! command -v rustc &> /dev/null; then
+    echo "Rust is not installed. Installing Rust..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    echo "Rust installed. Reconfiguring PATH..."
+    . "$HOME/.cargo/env"
+else
+    echo "Rust is already installed."
+fi
 
-echo "Installing Docker..."
-sudo apt update && sudo apt install -y docker.io
+echo "Checking if Docker is installed..."
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Installing Docker..."
+    sudo apt update && sudo apt install -y docker.io
+else
+    echo "Docker is already installed."
+fi
 docker --version
 
 echo "Creating new project 'fibonacci'..."
