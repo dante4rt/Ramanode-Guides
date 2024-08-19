@@ -14,7 +14,12 @@ const problems = require('./src/problems');
 const questions = require('./src/questions');
 const answers = require('./src/answers');
 const issues = require('./src/issues');
-const { replacePlaceholders, displayHeader, delay } = require('./src/utils');
+const {
+  replacePlaceholders,
+  displayHeader,
+  delay,
+  randomDateIn2024,
+} = require('./src/utils');
 
 (async () => {
   try {
@@ -77,7 +82,7 @@ const { replacePlaceholders, displayHeader, delay } = require('./src/utils');
       const content = {
         content: `Question: ${question} Answer: ${answer}`,
         meta: {
-          time: moment().format('YYYY-MM-DD HH:mm:ss'),
+          time: moment(randomDateIn2024()).format('YYYY-MM-DD HH:mm:ss'),
         },
       };
 

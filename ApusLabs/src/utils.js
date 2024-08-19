@@ -18,4 +18,17 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-module.exports = { displayHeader, replacePlaceholders, delay };
+function randomDateIn2024() {
+  const start = new Date(2024, 0, 1);
+  const end = new Date();
+  const randomTime =
+    start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  return new Date(randomTime);
+}
+
+module.exports = {
+  displayHeader,
+  replacePlaceholders,
+  delay,
+  randomDateIn2024,
+};
