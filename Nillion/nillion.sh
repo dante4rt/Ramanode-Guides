@@ -75,7 +75,7 @@ while true; do
 done
 
 current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
-block_start=$((current_height - 10))
+block_start=$((current_height - 100))
 
 echo "Automatically determined block start is $block_start"
 
