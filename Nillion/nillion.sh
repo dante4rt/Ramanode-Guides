@@ -84,7 +84,7 @@ echo "Sleeping for $sleep_time..."
 sleep $sleep_time
 
 echo "Running the accuser..."
-docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "http://65.109.222.111:26657" --block-start $block_start
+docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
 
 echo "The accuser is now running and will automatically accuse once the registration event is posted to the chain."
 echo "Subscribe: https://t.me/HappyCuanAirdrop."
