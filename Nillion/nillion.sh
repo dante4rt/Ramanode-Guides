@@ -74,13 +74,13 @@ while true; do
     fi
 done
 
+read -p "Enter the block start (default is 5047080): " block_start
+block_start=${block_start:-5047080}
+
 echo "Waiting 30-60 minutes before running the accuser..."
 sleep_time=$((30 + RANDOM % 31))m
 echo "Sleeping for $sleep_time..."
 sleep $sleep_time
-
-read -p "Enter the block start (default is 5047080): " block_start
-block_start=${block_start:-5047080}
 
 echo "Running the accuser..."
 docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "http://51.89.195.146:26657" --block-start $block_start
