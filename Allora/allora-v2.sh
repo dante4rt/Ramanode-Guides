@@ -14,7 +14,7 @@ echo "Checking prerequisites..."
 echo "Remove previous setup directories and Docker containers"
 rm -rf allora-chain basic-coin-prediction-node
 
-containers=("worker-2-basic-eth-pred" "inference-basic-eth-pred" "head-basic-eth-pred" "worker-basic-eth-pred")
+containers=("worker-2-basic-eth-pred" "inference-basic-eth-pred" "head-basic-eth-pred" "worker-basic-eth-pred" "updater-basic-eth-pred" "worker")
 
 for container in "${containers[@]}"; do
     if docker ps -a --format '{{.Names}}' | grep -q "^${container}$"; then
@@ -24,7 +24,7 @@ for container in "${containers[@]}"; do
     fi
 done
 
-images=("worker-2-basic-eth-pred" "inference-basic-eth-pred" "head-basic-eth-pred" "worker-basic-eth-pred")
+images=("worker-2-basic-eth-pred" "inference-basic-eth-pred" "head-basic-eth-pred" "worker-basic-eth-pred" "updater-basic-eth-pred" "worker")
 
 for image in "${images[@]}"; do
     if docker images --format '{{.Repository}}' | grep -q "^${image}$"; then
@@ -88,7 +88,7 @@ cat <<EOF > config.json
         "alloraHomeDir": "",
         "gas": "1000000",
         "gasAdjustment": 1.0,
-        "nodeRpc": "https://allora-testnet-rpc.polkachu.com/",
+        "nodeRpc": "https://sentries-rpc.testnet-1.testnet.allora.network/",
         "maxRetries": 1,
         "delay": 1,
         "submitTx": false
@@ -110,6 +110,42 @@ cat <<EOF > config.json
             "parameters": {
                 "InferenceEndpoint": "http://inference:8000/inference/{Token}",
                 "Token": "ETH"
+            }
+        },
+        {
+            "topicId": 3,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "BTC"
+            }
+        },
+        {
+            "topicId": 4,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "BTC"
+            }
+        },
+        {
+            "topicId": 5,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "SOL"
+            }
+        },
+         {
+            "topicId": 6,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "SOL"
             }
         },
         {
