@@ -12,7 +12,8 @@ cd $HOME
 mkdir -p nillion && cd nillion
 
 while true; do
-    echo "Please fund your wallet on https://faucet.testnet.nillion.com/"
+    echo "1. Visit: https://verifier.nillion.com/verifier, Connect your Keplr wallet, then click Verifier"
+    echo "2. Fund your connected wallet with NIL (Request Faucet here https://faucet.testnet.nillion.com/"
     read -p "Have you already funded your wallet? (y/n): " funded_wallet
     if [ "$funded_wallet" == "y" ]; then
         break
@@ -55,7 +56,7 @@ else
 fi
 
 while true; do
-    echo "Please copy your account_id and public_key to verifier.nillion.com/verifier."
+    echo "Please copy your account_id and public_key to https://verifier.nillion.com/verifier."
     read -p "Have you completed this step? (y/n): " copied_details
     if [ "$copied_details" == "y" ]; then
         break
