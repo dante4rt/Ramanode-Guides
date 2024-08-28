@@ -9,7 +9,6 @@ echo "Welcome to the Nillion Verifier auto-installer by Happy Cuan Airdrop"
 echo ""
 
 cd $HOME
-mkdir -p nillion && cd nillion
 
 while true; do
     echo "1. Visit: https://verifier.nillion.com/verifier, Connect your Keplr wallet, then click Verifier"
@@ -76,7 +75,13 @@ while true; do
 done
 
 current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
-block_start=$((current_height - 100))
+block_start=$((current_height - 10))
+
+echo "Automatically determined block start is $block_start"
+
+sleep_time=$((30 + RANDOM % 31))m
+echo "Sleeping for $sleep_time..."
+sleep $sleep_time
 
 echo "Running the accuser..."
 docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "http://65.109.222.111:26657" --block-start $block_start
