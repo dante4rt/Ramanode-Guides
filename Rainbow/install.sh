@@ -7,6 +7,15 @@ sleep 2
 
 cd $HOME
 sudo apt update && sudo apt upgrade -y 
+
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Installing Docker..."
+    sudo apt update && sudo apt install -y docker.io
+else
+    echo "Docker is already installed."
+fi
+docker --version
+
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
