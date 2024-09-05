@@ -7,6 +7,7 @@ sleep 2
 
 cd $HOME
 sudo apt update && sudo apt upgrade -y 
+sudo apt install -y pkg-config libssl-dev
 
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed. Installing Docker..."
