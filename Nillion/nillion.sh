@@ -38,11 +38,11 @@ else
 fi
 
 echo "Pulling the accuser image from Docker Hub..."
-docker pull nillion/retailtoken-accuser:v1.0.0
+docker pull nillion/retailtoken-accuser:v1.0.1
 
 echo "Initializing the accuser..."
 mkdir -p nillion/accuser
-docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 initialise
+docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 initialise
 
 echo "Displaying accuser credentials:"
 credentials_file="nillion/accuser/credentials.json"
@@ -84,7 +84,7 @@ current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info 
 block_start=$((current_height - 3))
 
 echo "Running the accuser..."
-docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "http://65.109.222.111:26657" --block-start $block_start
+docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
 
 echo "The accuser is now running and will automatically accuse once the registration event is posted to the chain."
 echo "Subscribe: https://t.me/HappyCuanAirdrop."
