@@ -9,11 +9,10 @@ echo "Welcome to the Nillion Verifier auto-installer by Happy Cuan Airdrop"
 echo ""
 
 cd $HOME
-mkdir -p nillion && cd nillion
 
 while true; do
     echo "1. Visit: https://verifier.nillion.com/verifier, Connect your Keplr wallet, then click Verifier"
-    echo "2. Fund your connected wallet with NIL (Request Faucet here https://faucet.testnet.nillion.com/"
+    echo "2. Fund your connected wallet with NIL (Request Faucet here https://faucet.testnet.nillion.com/)"
     read -p "Have you already funded your wallet? (y/n): " funded_wallet
     if [ "$funded_wallet" == "y" ]; then
         break
@@ -75,16 +74,17 @@ while true; do
     fi
 done
 
-echo "Waiting 30-60 minutes before running the accuser..."
+current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
+block_start=$((current_height - 100))
+
+echo "Automatically determined block start is $block_start"
+
 sleep_time=$((30 + RANDOM % 31))m
 echo "Sleeping for $sleep_time..."
 sleep $sleep_time
 
-current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
-block_start=$((current_height - 3))
-
 echo "Running the accuser..."
-docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
+docker run -v $(pwd)/nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.1 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
 
 echo "The accuser is now running and will automatically accuse once the registration event is posted to the chain."
 echo "Subscribe: https://t.me/HappyCuanAirdrop."
