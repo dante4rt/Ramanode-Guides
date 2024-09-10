@@ -8,6 +8,7 @@ sleep 2
 echo "Welcome to the t3rn Executor Setup by Happy Cuan Airdrop!"
 
 cd $HOME
+rm -rf executor
 sudo apt -q update
 sudo apt -qy upgrade
 
