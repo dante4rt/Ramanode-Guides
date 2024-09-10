@@ -25,6 +25,7 @@ fi
 
 echo "Extracting the binary..."
 tar -xzvf $EXECUTOR_FILE
+rm -rf $EXECUTOR_FILE
 cd executor/executor/bin
 
 echo "Binary downloaded and extracted successfully."
