@@ -8,7 +8,7 @@ sleep 2
 echo "Welcome to the t3rn Executor Setup by Happy Cuan Airdrop!"
 
 cd $HOME
-rm -rf executor; rm t3rn.sh
+rm -rf executor
 sudo apt -q update
 sudo apt -qy upgrade
 
@@ -66,5 +66,6 @@ echo
 echo "Starting the Executor..."
 ./executor
 
+rm t3rn.sh
 echo "Setup complete! The Executor is now running."
 echo "Subscribe: https://t.me/HappyCuanAirdrop"
