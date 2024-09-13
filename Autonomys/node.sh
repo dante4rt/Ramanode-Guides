@@ -19,6 +19,7 @@ if [ ! -d "hca-autonomys" ]; then
     echo "Created hca-autonomys directory."
 fi
 cd hca-autonomys
+rm -rf node-db subspace-node-ubuntu-x86_64-skylake-gemini-3h-2024-sep-03
 
 wget https://github.com/autonomys/subspace/releases/download/gemini-3h-2024-sep-03/subspace-node-ubuntu-x86_64-skylake-gemini-3h-2024-sep-03
 chmod +x subspace-node-ubuntu-x86_64-skylake-gemini-3h-2024-sep-03
