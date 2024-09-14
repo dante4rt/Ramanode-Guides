@@ -44,8 +44,9 @@ docker exec bitcoind bitcoin-cli -testnet4 -rpcuser=$BTC_RPC_USER -rpcpassword=$
 cd $HOME
 
 git clone https://github.com/rainbowprotocol-xyz/rbo_indexer_testnet.git
+wget https://storage.googleapis.com/rbo/rbo_worker/rbo_worker-linux-amd64-0.0.2-20240914-4ec80a8.tar.gz && tar -xzvf rbo_worker-linux-amd64-0.0.2-20240914-4ec80a8.tar.gz
+cp rbo_worker-linux-amd64-0.0.2-20240914-4ec80a8/rbo_worker rbo_indexer_testnet/rbo_worker
 cd rbo_indexer_testnet
-wget https://github.com/rainbowprotocol-xyz/rbo_indexer_testnet/releases/download/v0.0.1-alpha/rbo_worker
 chmod +x rbo_worker
 
 ./rbo_worker worker --rpc http://127.0.0.1:5000 --password $BTC_RPC_PASS --username $BTC_RPC_USER --start_height 42000
