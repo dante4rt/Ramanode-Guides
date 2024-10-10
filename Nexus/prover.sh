@@ -65,8 +65,25 @@ install_dependencies() {
 }
 
 run_prover() {
-  echo "Starting Prover..."
-  sudo curl https://cli.nexus.xyz/install.sh | sh
+  echo "Starting Prover installation..."
+  
+  if sudo curl https://cli.nexus.xyz/install.sh | sh; then
+    echo "Nexus CLI installed successfully."
+  else
+    echo "Nexus CLI installation via curl failed. Trying cargo update and reinstall..."
+
+    cd /root/.nexus/network-api/clients/cli && \
+    cargo update && \
+    
+    sudo curl https://cli.nexus.xyz/install.sh | sh
+    
+    if [ $? -eq 0 ]; then
+      echo "Nexus CLI successfully installed after cargo update."
+    else
+      echo "Nexus CLI installation failed again."
+      exit 1
+    fi
+  fi
 }
 
 install_dependencies
