@@ -67,9 +67,6 @@ Here's a sample of what the `datasets.json` file might look like:
   },
   {
     "content": "Question: What methods does Sam use with artificial intelligence and machine learning to improve customer experience as a Data Scientist? Answer: Sam applies artificial intelligence and machine learning to address customer experience in his position as a Data Scientist. By utilizing advanced analytics tools, Sam provides personalized customer interactions, leading to increased customer satisfaction and overall business growth.",
-    "meta": {
-      "time": "2024-08-01 10:20:45"
-    }
   }
 ]
 ```
