@@ -26,7 +26,7 @@ const {
     displayHeader();
     console.log('Please wait...');
 
-    await delay(10000);
+    await delay(3000);
 
     const numberOfEntries = readline.questionInt(
       'How many data entries would you like to generate? '
@@ -81,9 +81,6 @@ const {
 
       const content = {
         content: `Question: ${question} Answer: ${answer}`,
-        meta: {
-          time: moment(randomDateIn2024()).format('YYYY-MM-DD HH:mm:ss'),
-        },
       };
 
       dataset.push(content);
