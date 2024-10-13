@@ -24,4 +24,11 @@ module.exports = STRATEGIES = [
   'integrating advanced analytics for trading',
   'strengthening user engagement in crypto communities',
   'creating value-added services in blockchain applications',
+  'developing privacy-enhancing technologies',
+  'increasing transparency in crypto operations',
+  'investing in research and development for blockchain solutions',
+  'improving liquidity management strategies',
+  'expanding access to financial services through crypto',
+  'fostering international collaborations in the crypto space',
+  'developing user-friendly interfaces for crypto applications',
 ];
