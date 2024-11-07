@@ -23,9 +23,17 @@ else
     echo "Docker is already installed, skipping..."
 fi
 
-echo "Installing Docker Compose..."
-curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+if ! command -v docker-compose &> /dev/null; then
+    echo "Installing Docker Compose..."
+    curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose.tmp
+    if [[ -f /usr/local/bin/docker-compose ]]; then
+        rm /usr/local/bin/docker-compose
+    fi
+    mv /usr/local/bin/docker-compose.tmp /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+else
+    echo "Docker Compose is already installed, skipping..."
+fi
 
 mkdir -p target/release
 
@@ -42,11 +50,15 @@ read -p "Enter your BlockMesh email: " email
 read -s -p "Enter your BlockMesh password: " password
 echo
 
-echo "Creating a Docker container for the BlockMesh CLI..."
-docker run -it --rm \
-    --name blockmesh-cli-container \
-    -v $(pwd)/target/release:/app \
-    -e EMAIL="$email" \
-    -e PASSWORD="$password" \
-    --workdir /app \
-    ubuntu:22.04 ./blockmesh-cli --email "$email" --password "$password"
+if ! docker ps --filter "name=blockmesh-cli-container" | grep -q 'blockmesh-cli-container'; then
+    echo "Creating a Docker container for the BlockMesh CLI..."
+    docker run -it --rm \
+        --name blockmesh-cli-container \
+        -v $(pwd)/target/release:/app \
+        -e EMAIL="$email" \
+        -e PASSWORD="$password" \
+        --workdir /app \
+        ubuntu:22.04 ./blockmesh-cli --email "$email" --password "$password"
+else
+    echo "BlockMesh CLI container is already running, skipping..."
+fi
