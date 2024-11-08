@@ -38,7 +38,9 @@ fi
 mkdir -p target/release
 
 echo "Downloading and extracting BlockMesh CLI..."
-curl -L https://github.com/block-mesh/block-mesh-monorepo/releases/download/v0.0.343/blockmesh-cli-x86_64-unknown-linux-gnu.tar.gz -o blockmesh-cli.tar.gz
+curl -s https://api.github.com/repos/block-mesh/block-mesh-monorepo/releases/latest \
+| grep -oP '"browser_download_url": "\K(.*blockmesh-cli-x86_64-unknown-linux-gnu.tar.gz)' \
+| xargs curl -L -o blockmesh-cli.tar.gz
 tar -xzf blockmesh-cli.tar.gz --strip-components=3 -C target/release
 
 if [[ ! -f target/release/blockmesh-cli ]]; then
