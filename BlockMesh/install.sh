@@ -38,7 +38,6 @@ fi
 mkdir -p target/release
 
 echo "Downloading and extracting BlockMesh CLI..."
-# Please unban me in tg group: @raymundedgar. I am just trying to suggest this code, to dynamically pull the binary :(
 curl -s https://api.github.com/repos/block-mesh/block-mesh-monorepo/releases/latest \
 | grep -oP '"browser_download_url": "\K(.*blockmesh-cli-x86_64-unknown-linux-gnu.tar.gz)' \
 | xargs curl -L -o blockmesh-cli.tar.gz
