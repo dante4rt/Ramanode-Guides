@@ -62,5 +62,6 @@ if ! docker ps --filter "name=blockmesh-cli-container" | grep -q 'blockmesh-cli-
         --workdir /app \
         ubuntu:22.04 ./blockmesh-cli --email "$email" --password "$password"
 else
-    echo "BlockMesh CLI container is already running, skipping..."
+    echo "BlockMesh CLI container is already running, restarting to use the new binary"
+    docker restart blockmesh-cli-container
 fi
