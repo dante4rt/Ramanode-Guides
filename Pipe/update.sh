@@ -18,7 +18,8 @@ sudo curl -L "$DCDND_URL" -o /opt/dcdn/dcdnd
 sudo chmod +x /opt/dcdn/pipe-tool
 sudo chmod +x /opt/dcdn/dcdnd
 
-sudo systemctl start dcdnd
+sudo systemctl daemon-reload
+sudo systemctl enable dcdnd
+sudo systemctl restart dcdnd
 
-sudo systemctl status dcdnd
 echo "✅ Update Complete!"
