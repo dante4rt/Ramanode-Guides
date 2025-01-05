@@ -8,9 +8,9 @@ curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/lo
 sleep 4
 
 set -e
-APT_KEY_URL="https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg"
-APT_DOWNLOAD_URL="https://us-central1-apt.pkg.dev/projects/sonaric-platform"
-RPM_DOWNLOAD_URL="https://us-central1-yum.pkg.dev/projects/sonaric-platform/sonaric-releases-rpm"
+APT_KEY_URL="https://apt.sonaric.xyz/repo-signing-key.pgp"
+APT_DOWNLOAD_URL="https://apt.sonaric.xyz"
+RPM_DOWNLOAD_URL="https://get.sonaric.xyz/rpm"
 
 DOWNLOAD_URL="https://storage.googleapis.com/sonaric-releases/stable/linux/sonaric-amd64-latest.tar.gz"
 
