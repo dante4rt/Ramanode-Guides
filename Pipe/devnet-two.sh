@@ -65,7 +65,7 @@ ExecStart=$HOME/pipe-hca/pop \
     --pubKey $PUBKEY \
     --max-disk $DISK \
     --cache-dir $HOME/pipe-hca/download_cache \
-    --signup-by-referral-route d4f102939b786ec5
+#    --signup-by-referral-route d4f102939b786ec5
 Restart=always
 RestartSec=5
 LimitNOFILE=65536
