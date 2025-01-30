@@ -16,6 +16,9 @@ else
   echo "No process found using port 8003."
 fi
 
+echo "Stopping any DCDND service..."
+systemctl stop dcdnd && systemctl disable dcdnd
+
 echo "Creating $HOME/pipe-hca folder..."
 mkdir -p $HOME/pipe-hca
 
