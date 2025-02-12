@@ -11,7 +11,23 @@ cd $HOME
 rm -rf $HOME/.cache/hyperspace/models/*
 sleep 5
 
-echo "Starting Hyper.Space installation..."
+echo "🚀 Installing HyperSpace CLI..."
+while true; do
+    curl -s https://download.hyper.space/api/install | bash | tee /root/hyperspace_install.log
+
+    if ! grep -q "Failed to parse version from release data." /root/hyperspace_install.log; then
+        echo "✅ HyperSpace CLI installed successfully!"
+    break
+    else
+        echo "❌ Installation failed. Retrying in 10 seconds..."
+        sleep 5
+    fi
+done
+
+echo "🚀 Installing AIOS to the path..."
+echo 'export PATH=$PATH:$HOME/.aios' >> ~/.bashrc
+export PATH=$PATH:$HOME/.aios
+source ~/.bashrc
 
 screen -S hyperspace -dm
 screen -S hyperspace -p 0 -X stuff $'aios-cli start\n'
@@ -24,20 +40,19 @@ nano hyperspace.pem
 
 aios-cli hive import-keys ./hyperspace.pem
 
-echo "Selecting the required hive tier..."
+echo "🔑 Logging into the hive..."
 aios-cli hive login
-aios-cli hive select-tier 5
 
 sleep 5
 
 echo "Downloading the required model..."
-aios-cli models add hf:TheBloke/phi-2-GGUF:phi-2.Q4_K_M.gguf
-
-echo "Logging in with the imported keys..."
-aios-cli hive login
+aios-cli models add hf:second-state/Qwen1.5-1.8B-Chat-GGUF:Qwen1.5-1.8B-Chat-Q4_K_M.gguf
 
 echo "Connecting to the hive and ensuring the model is registered..."
 aios-cli hive connect
-aios-cli hive select-tier 5
+aios-cli hive select-tier 3
+
+echo "🔍 Checking node status..."
+aios-cli status
 
 echo "Setup complete!"
