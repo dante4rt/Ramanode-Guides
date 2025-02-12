@@ -56,3 +56,4 @@ echo "🔍 Checking node status..."
 aios-cli status
 
 echo "Setup complete!"
+echo "Subscribe: https://t.me/HappyCuanAirdrop"
