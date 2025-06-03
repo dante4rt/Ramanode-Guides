@@ -30,11 +30,11 @@ echo "Hardhat toolbox installed."
 
 echo "Creating .env file..."
 read -p "Enter your private key: " PRIVATE_KEY
-echo "PRIVATE_KEY=$PRIVATE_KEY" > .env
+echo "PRIVATE_KEY=$PRIVATE_KEY" >.env
 echo ".env file created."
 
 echo "Configuring Hardhat..."
-cat <<EOL > hardhat.config.js
+cat <<EOL >hardhat.config.js
 require("@nomicfoundation/hardhat-toolbox");
 require('@openzeppelin/hardhat-upgrades');
 require("dotenv").config();
@@ -53,7 +53,7 @@ echo "Hardhat configuration completed."
 
 echo "Creating Hello_swtr.sol contract..."
 mkdir -p contracts
-cat <<EOL > contracts/Hello_swtr.sol
+cat <<EOL >contracts/Hello_swtr.sol
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
@@ -81,7 +81,7 @@ echo "Contract compiled."
 
 echo "Creating deploy.js script..."
 mkdir -p scripts
-cat <<EOL > scripts/deploy.js
+cat <<EOL >scripts/deploy.js
 const fs = require("fs");
 
 async function main() {
@@ -121,7 +121,7 @@ npx hardhat run scripts/deploy.js --network swisstronik
 echo "Contract deployed."
 
 echo "Creating setMessage.js script..."
-cat <<EOL > scripts/setMessage.js
+cat <<EOL >scripts/setMessage.js
 const hre = require("hardhat");
 const { encryptDataField, decryptNodeResponse } = require("@swisstronik/utils");
 const fs = require("fs");
@@ -161,7 +161,7 @@ npx hardhat run scripts/setMessage.js --network swisstronik
 echo "Message set."
 
 echo "Creating getMessage.js script..."
-cat <<EOL > scripts/getMessage.js
+cat <<EOL >scripts/getMessage.js
 const hre = require("hardhat");
 const { encryptDataField, decryptNodeResponse } = require("@swisstronik/utils");
 const fs = require("fs");

@@ -34,7 +34,7 @@ cargo nexus new nexus-project
 print_message "Editing the main.rs file"
 cd nexus-project/src
 
-cat > main.rs <<EOL
+cat >main.rs <<EOL
 #![cfg_attr(target_arch = "riscv32", no_std, no_main)]
 
 fn fib(n: u32) -> u32 {

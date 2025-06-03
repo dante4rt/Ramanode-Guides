@@ -15,7 +15,7 @@ is_installed() {
 install_dependencies() {
   echo "Installing dependencies..."
   sudo apt update && sudo apt upgrade -y
-  
+
   packages=(
     curl
     iptables
@@ -51,7 +51,7 @@ install_dependencies() {
     fi
   done
 
-  if ! command -v rustc &> /dev/null; then
+  if ! command -v rustc &>/dev/null; then
     echo "Installing Rust..."
     sudo curl https://sh.rustup.rs -sSf | sh
     source $HOME/.cargo/env
@@ -66,17 +66,16 @@ install_dependencies() {
 
 run_prover() {
   echo "Starting Prover installation..."
-  
+
   if sudo curl https://cli.nexus.xyz/install.sh | sh; then
     echo "Nexus CLI installed successfully."
   else
     echo "Nexus CLI installation via curl failed. Trying cargo update and reinstall..."
 
-    cd /root/.nexus/network-api/clients/cli && \
-    cargo update && \
-    
-    sudo curl https://cli.nexus.xyz/install.sh | sh
-    
+    cd /root/.nexus/network-api/clients/cli &&
+      cargo update &&
+      sudo curl https://cli.nexus.xyz/install.sh | sh
+
     if [ $? -eq 0 ]; then
       echo "Nexus CLI successfully installed after cargo update."
     else

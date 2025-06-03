@@ -19,8 +19,8 @@ echo "Downloading the Executor binary from $EXECUTOR_URL..."
 curl -L -o $EXECUTOR_FILE $EXECUTOR_URL
 
 if [ $? -ne 0 ]; then
-    echo "Failed to download the Executor binary. Please check your internet connection and try again."
-    exit 1
+  echo "Failed to download the Executor binary. Please check your internet connection and try again."
+  exit 1
 fi
 
 echo "Extracting the binary..."

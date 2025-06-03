@@ -26,13 +26,13 @@ echo "Please enter the link to the v2 binary download from email (must start wit
 read -r binary_url
 
 if [[ $binary_url == https* ]]; then
-    echo "Downloading pop binary..."
-    wget -O $HOME/pipe-hca/pop "$binary_url"
-    chmod +x $HOME/pipe-hca/pop
-    echo "Binary downloaded and made executable."
+  echo "Downloading pop binary..."
+  wget -O $HOME/pipe-hca/pop "$binary_url"
+  chmod +x $HOME/pipe-hca/pop
+  echo "Binary downloaded and made executable."
 else
-    echo "Invalid URL. Please ensure the link starts with 'https'."
-    exit 1
+  echo "Invalid URL. Please ensure the link starts with 'https'."
+  exit 1
 fi
 
 read -p "Enter the amount of RAM to share (min 4GB): " RAM
@@ -52,7 +52,7 @@ read -p "Enter your public key: " PUBKEY
 SERVICE_FILE="/etc/systemd/system/pipe.service"
 echo "Creating $SERVICE_FILE..."
 
-cat <<EOF | sudo tee $SERVICE_FILE > /dev/null
+cat <<EOF | sudo tee $SERVICE_FILE >/dev/null
 [Unit]
 Description=Pipe POP Node Service
 After=network.target
@@ -79,7 +79,7 @@ WantedBy=multi-user.target
 EOF
 
 echo "Reloading systemd daemon and starting pipe service..."
-sudo systemctl daemon-reload && \
-sudo systemctl enable pipe && \
-sudo systemctl restart pipe && \
-journalctl -u pipe -fo cat
+sudo systemctl daemon-reload &&
+  sudo systemctl enable pipe &&
+  sudo systemctl restart pipe &&
+  journalctl -u pipe -fo cat

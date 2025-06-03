@@ -10,12 +10,12 @@ echo "Welcome to the Ollama/OpenAI setup script!"
 sudo apt update && sudo apt upgrade -y
 
 echo "Checking if Screen is installed..."
-if ! command -v screen &> /dev/null; then
-  sudo apt install screen -y
+if ! command -v screen &>/dev/null; then
+    sudo apt install screen -y
 fi
 
 echo "Checking if Docker is installed..."
-if ! command -v docker &> /dev/null; then
+if ! command -v docker &>/dev/null; then
     echo "Docker is not installed. Installing Docker..."
     sudo apt update && sudo apt install -y docker.io
 else
@@ -38,7 +38,7 @@ cp .env.example .env
 
 read -sp "Please enter your Ethereum Wallet private key: " PRIVATE_KEY
 echo
-echo "DKN_WALLET_SECRET_KEY=$PRIVATE_KEY" >> .env
+echo "DKN_WALLET_SECRET_KEY=$PRIVATE_KEY" >>.env
 echo "Your private key has been added to the .env file."
 
 read -p "Do you want to use Ollama or OpenAI? (ollama/openai): " AI_PROVIDER
@@ -46,7 +46,7 @@ read -p "Do you want to use Ollama or OpenAI? (ollama/openai): " AI_PROVIDER
 if [ "$AI_PROVIDER" = "openai" ]; then
     read -sp "Please enter your OpenAI API key: " OPENAI_API_KEY
     echo
-    echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+    echo "OPENAI_API_KEY=$OPENAI_API_KEY" >>.env
     echo "Your OpenAI API key has been added to the .env file."
 
     echo "Please select a model from the following list:"
@@ -57,22 +57,22 @@ if [ "$AI_PROVIDER" = "openai" ]; then
     read -p "Enter the number corresponding to your choice: " MODEL_CHOICE
 
     case $MODEL_CHOICE in
-        1)
-            MODEL="gpt-4o-mini"
-            ;;
-        2)
-            MODEL="gpt-4o"
-            ;;
-        3)
-            MODEL="gpt-3.5-turbo"
-            ;;
-        4)
-            MODEL="gpt-4-turbo"
-            ;;
-        *)
-            echo "Invalid selection. Defaulting to gpt-4o-mini."
-            MODEL="gpt-4o-mini"
-            ;;
+    1)
+        MODEL="gpt-4o-mini"
+        ;;
+    2)
+        MODEL="gpt-4o"
+        ;;
+    3)
+        MODEL="gpt-3.5-turbo"
+        ;;
+    4)
+        MODEL="gpt-4-turbo"
+        ;;
+    *)
+        echo "Invalid selection. Defaulting to gpt-4o-mini."
+        MODEL="gpt-4o-mini"
+        ;;
     esac
 elif [ "$AI_PROVIDER" = "ollama" ]; then
     echo "Installing Ollama..."
@@ -87,25 +87,25 @@ elif [ "$AI_PROVIDER" = "ollama" ]; then
     read -p "Enter the number corresponding to your choice: " MODEL_CHOICE
 
     case $MODEL_CHOICE in
-        1)
-            MODEL="adrienbrault/nous-hermes2theta-llama3-8b:q8_0"
-            ;;
-        2)
-            MODEL="phi3:14b-medium-4k-instruct-q4_1"
-            ;;
-        3)
-            MODEL="phi3:14b-medium-128k-instruct-q4_1"
-            ;;
-        4)
-            MODEL="phi3:3.8b"
-            ;;
-        5)
-            MODEL="llama3.1:latest"
-            ;;
-        *)
-            echo "Invalid selection. Defaulting to llama3.1:latest."
-            MODEL="llama3.1:latest"
-            ;;
+    1)
+        MODEL="adrienbrault/nous-hermes2theta-llama3-8b:q8_0"
+        ;;
+    2)
+        MODEL="phi3:14b-medium-4k-instruct-q4_1"
+        ;;
+    3)
+        MODEL="phi3:14b-medium-128k-instruct-q4_1"
+        ;;
+    4)
+        MODEL="phi3:3.8b"
+        ;;
+    5)
+        MODEL="llama3.1:latest"
+        ;;
+    *)
+        echo "Invalid selection. Defaulting to llama3.1:latest."
+        MODEL="llama3.1:latest"
+        ;;
     esac
 else
     echo "Invalid provider selection. Exiting."

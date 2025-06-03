@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if ! command -v docker &> /dev/null; then
-    echo "Docker is not installed. Installing Docker on your VPS..."
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
+if ! command -v docker &>/dev/null; then
+  echo "Docker is not installed. Installing Docker on your VPS..."
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sudo sh get-docker.sh
 else
-    echo "Docker is already installed."
+  echo "Docker is already installed."
 fi
 
 echo "Enabling ports 30333 and 30334..."

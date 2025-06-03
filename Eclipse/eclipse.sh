@@ -22,7 +22,7 @@ echo "Eclipse Deployment Program by Happy Cuan Airdrop"
 
 execute_and_prompt "Updating your dependencies..." "sudo apt update && sudo apt upgrade -y"
 
-if ! command -v rustc &> /dev/null; then
+if ! command -v rustc &>/dev/null; then
     response=$(prompt "Do you want to install Rust? (Reply 1 to proceed) ")
     if [ "$response" == "1" ]; then
         execute_and_prompt "Installing Rust..." "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
@@ -33,7 +33,7 @@ else
     echo "Rust is already installed. Skipping installation."
 fi
 
-if ! command -v solana &> /dev/null; then
+if ! command -v solana &>/dev/null; then
     execute_and_prompt "Installing Solana CLI..." 'sh -c "$(curl -sSfL https://release.solana.com/stable/install)"'
     export PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
     execute_and_prompt "Checking Solana version..." "solana --version"
@@ -41,14 +41,14 @@ else
     echo "Solana CLI is already installed. Skipping installation."
 fi
 
-if ! command -v npm &> /dev/null; then
+if ! command -v npm &>/dev/null; then
     execute_and_prompt "Installing npm..." "sudo apt-get install -y npm"
     execute_and_prompt "Checking npm version..." "npm --version"
 else
     echo "npm is already installed. Skipping installation."
 fi
 
-if ! command -v anchor &> /dev/null; then
+if ! command -v anchor &>/dev/null; then
     execute_and_prompt "Installing Anchor CLI..." "cargo install --git https://github.com/project-serum/anchor anchor-cli --locked"
     export PATH="$HOME/.cargo/bin:$PATH"
     execute_and_prompt "Checking Anchor version..." "anchor --version"
@@ -79,7 +79,7 @@ repeat_count=$(prompt "Enter the number of times to repeat the transaction (reco
 gas_limit="3000000"
 gas_price="100000"
 
-for ((i=1; i<=repeat_count; i++)); do
+for ((i = 1; i <= repeat_count; i++)); do
     execute_and_prompt "Running bridge script (Iteration $i)..." "node deposit.js $solana_address 0x7C9e161ebe55000a3220F972058Fb83273653a6e $gas_limit $gas_price ${ethereum_private_key:2} https://rpc.sepolia.org"
 done
 

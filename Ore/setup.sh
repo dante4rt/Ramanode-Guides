@@ -17,7 +17,7 @@ sudo apt-get install -y build-essential gcc cargo pkg-config libssl-dev
 
 cargo install ore-cli
 
-if ! command -v node &> /dev/null; then
+if ! command -v node &>/dev/null; then
     echo "Node.js not found. Installing Node.js..."
     sudo apt update && sudo apt upgrade -y
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -28,7 +28,7 @@ else
     echo "Node.js is already installed."
 fi
 
-if ! command -v solana &> /dev/null; then
+if ! command -v solana &>/dev/null; then
     echo "Solana CLI not found. Installing Solana CLI..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
@@ -57,7 +57,7 @@ elif [ "$wallet_choice" == "2" ]; then
     elif [ "$import_choice" == "2" ]; then
         read -p "Please enter your private key (base58 encoded): " private_key
 
-        cat <<EOF > import_keypair.js
+        cat <<EOF >import_keypair.js
 const fs = require('fs');
 
 const base58Decode = (str) => {
@@ -135,7 +135,7 @@ else
     dynamic_fee_flag=""
 fi
 
-cat <<EOF > ore.sh
+cat <<EOF >ore.sh
 #!/bin/bash
 
 retry_count=0

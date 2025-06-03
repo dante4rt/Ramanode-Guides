@@ -28,11 +28,11 @@ echo "Hardhat toolbox installed."
 
 echo "Creating .env file..."
 read -p "Enter your private key: " PRIVATE_KEY
-echo "PRIVATE_KEY=$PRIVATE_KEY" > .env
+echo "PRIVATE_KEY=$PRIVATE_KEY" >.env
 echo ".env file created."
 
 echo "Configuring Hardhat..."
-cat <<EOL > hardhat.config.js
+cat <<EOL >hardhat.config.js
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
@@ -54,7 +54,7 @@ read -p "Enter the token symbol: " TOKEN_SYMBOL
 
 echo "Creating IPERC20.sol contract..."
 mkdir -p contracts
-cat <<EOL > contracts/IPERC20.sol
+cat <<EOL >contracts/IPERC20.sol
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/IERC20.sol)
 
@@ -72,7 +72,7 @@ EOL
 echo "IPERC20.sol contract created."
 
 echo "Creating IPERC20Metadata.sol contract..."
-cat <<EOL > contracts/IPERC20Metadata.sol
+cat <<EOL >contracts/IPERC20Metadata.sol
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts v4.4.1 (token/ERC20/extensions/IERC20Metadata.sol)
 
@@ -89,7 +89,7 @@ EOL
 echo "IPERC20Metadata.sol contract created."
 
 echo "Creating PERC20.sol contract..."
-cat <<EOL > contracts/PERC20.sol
+cat <<EOL >contracts/PERC20.sol
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.17;
@@ -251,7 +251,7 @@ EOL
 echo "PERC20.sol contract created."
 
 echo "Creating PERC20Sample.sol contract..."
-cat <<EOL > contracts/PERC20Sample.sol
+cat <<EOL >contracts/PERC20Sample.sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
@@ -285,7 +285,7 @@ echo "Contract compiled."
 
 echo "Creating deploy.js script..."
 mkdir -p scripts
-cat <<EOL > scripts/deploy.js
+cat <<EOL >scripts/deploy.js
 const { ethers } = require("hardhat");
 const fs = require("fs");
 
@@ -310,7 +310,7 @@ npx hardhat run scripts/deploy.js --network swisstronik
 echo "Contract deployed."
 
 echo "Creating mint.js script..."
-cat <<EOL > scripts/mint.js
+cat <<EOL >scripts/mint.js
 const hre = require("hardhat");
 const fs = require("fs");
 const { encryptDataField, decryptNodeResponse } = require("@swisstronik/utils");
@@ -354,7 +354,7 @@ npx hardhat run scripts/mint.js --network swisstronik
 echo "Tokens minted."
 
 echo "Creating transfer.js script..."
-cat <<EOL > scripts/transfer.js
+cat <<EOL >scripts/transfer.js
 const hre = require("hardhat");
 const fs = require("fs");
 const { encryptDataField, decryptNodeResponse } = require("@swisstronik/utils");

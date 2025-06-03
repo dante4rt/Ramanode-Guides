@@ -10,12 +10,12 @@ print_color() {
   TEXT=$2
   NC='\033[0m'
   case $COLOR in
-    "red") COLOR='\033[0;31m' ;;
-    "green") COLOR='\033[0;32m' ;;
-    "yellow") COLOR='\033[0;33m' ;;
-    "blue") COLOR='\033[0;34m' ;;
-    "cyan") COLOR='\033[0;36m' ;;
-    "magenta") COLOR='\033[0;35m' ;;
+  "red") COLOR='\033[0;31m' ;;
+  "green") COLOR='\033[0;32m' ;;
+  "yellow") COLOR='\033[0;33m' ;;
+  "blue") COLOR='\033[0;34m' ;;
+  "cyan") COLOR='\033[0;36m' ;;
+  "magenta") COLOR='\033[0;35m' ;;
   esac
   echo -e "${COLOR}${TEXT}${NC}"
 }
@@ -56,7 +56,7 @@ fuelup self update
 fuelup update && fuelup default latest
 print_color "green" "Fuel Toolchain installed successfully!"
 
-if ! command -v forc &> /dev/null; then
+if ! command -v forc &>/dev/null; then
   print_color "red" "Fuel toolchain path not found in PATH variable."
   show_path_instructions
   exit 1
@@ -67,7 +67,7 @@ mkdir -p fuel-project && cd fuel-project
 forc new counter-contract
 
 print_color "cyan" "Editing the contract..."
-cat <<EOF > counter-contract/src/main.sw
+cat <<EOF >counter-contract/src/main.sw
 contract;
 
 storage {

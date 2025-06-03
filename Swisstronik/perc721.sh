@@ -28,11 +28,11 @@ echo "Hardhat toolbox installed."
 
 echo "Creating .env file..."
 read -p "Enter your private key: " PRIVATE_KEY
-echo "PRIVATE_KEY=$PRIVATE_KEY" > .env
+echo "PRIVATE_KEY=$PRIVATE_KEY" >.env
 echo ".env file created."
 
 echo "Configuring Hardhat..."
-cat <<EOL > hardhat.config.js
+cat <<EOL >hardhat.config.js
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
@@ -53,7 +53,7 @@ read -p "Enter the NFT symbol: " NFT_SYMBOL
 
 echo "Creating PrivateNFT.sol contract..."
 mkdir -p contracts
-cat <<EOL > contracts/PrivateNFT.sol
+cat <<EOL >contracts/PrivateNFT.sol
 // SPDX-License-Identifier: MIT
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
@@ -98,7 +98,7 @@ echo "Contract compiled."
 
 echo "Creating deploy.js script..."
 mkdir -p scripts
-cat <<EOL > scripts/deploy.js
+cat <<EOL >scripts/deploy.js
 const hre = require("hardhat");
 const fs = require("fs");
 
@@ -124,7 +124,7 @@ npx hardhat run scripts/deploy.js --network swisstronik
 echo "Contract deployed."
 
 echo "Creating mint.js script..."
-cat <<EOL > scripts/mint.js
+cat <<EOL >scripts/mint.js
 const hre = require("hardhat");
 const fs = require("fs");
 const { encryptDataField, decryptNodeResponse } = require("@swisstronik/utils");

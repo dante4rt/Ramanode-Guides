@@ -6,10 +6,10 @@ curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/lo
 sleep 2
 
 cd $HOME
-sudo apt update && sudo apt upgrade -y 
+sudo apt update && sudo apt upgrade -y
 sudo apt install -y pkg-config libssl-dev
 
-if ! command -v docker &> /dev/null; then
+if ! command -v docker &>/dev/null; then
     echo "Docker is not installed. Installing Docker..."
     sudo apt update && sudo apt install -y docker.io
 else

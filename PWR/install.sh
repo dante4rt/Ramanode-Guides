@@ -32,11 +32,11 @@ fi
 
 sudo apt update && sudo apt upgrade -y
 
-if ! command -v screen &> /dev/null; then
+if ! command -v screen &>/dev/null; then
   sudo apt install screen -y
 fi
 
-if ! command -v java &> /dev/null; then
+if ! command -v java &>/dev/null; then
   sudo apt install -y openjdk-19-jre-headless
 fi
 

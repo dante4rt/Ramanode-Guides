@@ -12,7 +12,7 @@ check_and_open_ports() {
       port_end=${port_range#*:}
       range_description="$port_start to $port_end"
 
-      for ((port=$port_start; port<=$port_end; port++)); do
+      for ((port = $port_start; port <= $port_end; port++)); do
         if ! sudo ufw status | grep -q "$port"; then
           echo "🔒 Port $port is not allowed. Opening it with ufw..."
           sudo ufw allow "$port" && echo "✅ Port $port opened successfully." || echo "❌ Failed to open port $port."
@@ -45,10 +45,10 @@ install_ocean_nodes() {
     echo "❌ Please enter a number between 1 and $MAX_NODES."
     exit 1
   fi
-  
+
   echo "Starting installation of $node_count nodes..."
   sudo bash -c "git clone $OCEAN_REPO && cd ocean && chmod ugo+x ocean.sh && ./ocean.sh"
-  
+
   if [ $? -eq 0 ]; then
     echo "✅ Nodes installation completed successfully."
   else
@@ -67,33 +67,33 @@ manage_nodes() {
   2) Restart a node
   3) Delete all nodes
   4) Re-run the installation script"
-  
+
   read -p "Enter your choice: " choice
   case $choice in
-    1)
-      read -p "Enter node number to stop (e.g., 1 for node-1): " node_number
-      sudo docker-compose -f "$OCEAN_FOLDER/docker-compose${node_number}.yaml" down
-      echo "Node $node_number stopped."
-      ;;
-    2)
-      read -p "Enter node number to restart (e.g., 1 for node-1): " node_number
-      sudo docker-compose -f "$OCEAN_FOLDER/docker-compose${node_number}.yaml" down && \
+  1)
+    read -p "Enter node number to stop (e.g., 1 for node-1): " node_number
+    sudo docker-compose -f "$OCEAN_FOLDER/docker-compose${node_number}.yaml" down
+    echo "Node $node_number stopped."
+    ;;
+  2)
+    read -p "Enter node number to restart (e.g., 1 for node-1): " node_number
+    sudo docker-compose -f "$OCEAN_FOLDER/docker-compose${node_number}.yaml" down &&
       sudo docker-compose -f "$OCEAN_FOLDER/docker-compose${node_number}.yaml" up -d
-      echo "Node $node_number restarted."
-      ;;
-    3)
-      echo "Stopping and removing all Ocean Protocol nodes and Typesense containers..."
-      docker ps -a --filter "name=ocean-node" --filter "name=typesense" -q | xargs -r docker stop
-      docker ps -a --filter "name=ocean-node" --filter "name=typesense" -q | xargs -r docker rm
-      rm -rf "$OCEAN_FOLDER"
-      echo "✅ All nodes and configurations deleted."
-      ;;
-    4)
-      cd "$OCEAN_FOLDER" && ./ocean.sh
-      ;;
-    *)
-      echo "Invalid option. Exiting."
-      ;;
+    echo "Node $node_number restarted."
+    ;;
+  3)
+    echo "Stopping and removing all Ocean Protocol nodes and Typesense containers..."
+    docker ps -a --filter "name=ocean-node" --filter "name=typesense" -q | xargs -r docker stop
+    docker ps -a --filter "name=ocean-node" --filter "name=typesense" -q | xargs -r docker rm
+    rm -rf "$OCEAN_FOLDER"
+    echo "✅ All nodes and configurations deleted."
+    ;;
+  4)
+    cd "$OCEAN_FOLDER" && ./ocean.sh
+    ;;
+  *)
+    echo "Invalid option. Exiting."
+    ;;
   esac
 }
 
@@ -115,21 +115,21 @@ if check_existing_install; then
   1) Deploy new nodes
   2) View logs
   3) Manage nodes (stop, restart, delete)"
-  
+
   read -p "Enter your choice: " choice
   case $choice in
-    1)
-      install_ocean_nodes
-      ;;
-    2)
-      view_node_logs
-      ;;
-    3)
-      manage_nodes
-      ;;
-    *)
-      echo "Invalid option. Exiting."
-      ;;
+  1)
+    install_ocean_nodes
+    ;;
+  2)
+    view_node_logs
+    ;;
+  3)
+    manage_nodes
+    ;;
+  *)
+    echo "Invalid option. Exiting."
+    ;;
   esac
 else
   install_ocean_nodes

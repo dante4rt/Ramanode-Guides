@@ -7,8 +7,7 @@ sleep 2
 
 sudo apt update && sudo apt upgrade -y
 
-if ! command -v screen &> /dev/null
-then
+if ! command -v screen &>/dev/null; then
     echo "Installing screen..."
     sudo apt install screen -y
 fi
@@ -28,8 +27,8 @@ read -p "Enter your NODE_NAME: " NODE_NAME
 mkdir -p $HOME/hca-autonomys/node-db
 
 ./subspace-node-ubuntu-x86_64-skylake-gemini-3h-2024-sep-03 \
-  run \
-  --chain gemini-3h \
-  --base-path "$HOME/hca-autonomys/node-db" \
-  --name "$NODE_NAME" \
-  --farmer
+    run \
+    --chain gemini-3h \
+    --base-path "$HOME/hca-autonomys/node-db" \
+    --name "$NODE_NAME" \
+    --farmer

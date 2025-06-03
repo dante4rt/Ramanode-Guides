@@ -6,7 +6,7 @@ curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/lo
 sleep 2
 
 check_node() {
-    if ! command -v node &> /dev/null; then
+    if ! command -v node &>/dev/null; then
         return 1
     fi
     return 0

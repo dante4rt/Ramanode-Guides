@@ -9,14 +9,14 @@ sudo apt update && sudo apt upgrade -y
 
 sudo apt install make clang pkg-config libssl-dev libclang-dev build-essential git curl ntp jq llvm tmux htop screen unzip cmake cron -y
 
-if ! command -v go &> /dev/null; then
+if ! command -v go &>/dev/null; then
     echo "Golang not found. Installing Golang..."
     . <(wget -qO- https://raw.githubusercontent.com/letsnode/Utils/main/installers/golang.sh)
 else
     echo "Golang is already installed. Skipping installation..."
 fi
 
-if ! command -v docker &> /dev/null; then
+if ! command -v docker &>/dev/null; then
     echo "Docker not found. Installing Docker..."
     . <(wget -qO- https://raw.githubusercontent.com/letsnode/Utils/main/installers/docker.sh)
 else

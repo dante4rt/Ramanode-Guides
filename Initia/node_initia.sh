@@ -38,20 +38,20 @@ read -p "Enter your validator details: " VALIDATOR_DETAILS
 read -p "Enter your website URL: " WEBSITE_URL
 
 initiad tx mstaking create-validator \
---amount 1000000uinit \
---pubkey $(initiad tendermint show-validator) \
---moniker "$MONIKER_NAME" \
---identity "$KEYBASE_ID" \
---details "$VALIDATOR_DETAILS" \
---website "$WEBSITE_URL" \
---chain-id initiation-1 \
---commission-rate 0.05 \
---commission-max-rate 0.20 \
---commission-max-change-rate 0.05 \
---from $WALLET_NAME \
---gas-adjustment 1.4 \
---gas auto \
---gas-prices 0.15uinit \
--y
+    --amount 1000000uinit \
+    --pubkey $(initiad tendermint show-validator) \
+    --moniker "$MONIKER_NAME" \
+    --identity "$KEYBASE_ID" \
+    --details "$VALIDATOR_DETAILS" \
+    --website "$WEBSITE_URL" \
+    --chain-id initiation-1 \
+    --commission-rate 0.05 \
+    --commission-max-rate 0.20 \
+    --commission-max-change-rate 0.05 \
+    --from $WALLET_NAME \
+    --gas-adjustment 1.4 \
+    --gas auto \
+    --gas-prices 0.15uinit \
+    -y
 
 echo "Setup completed successfully."

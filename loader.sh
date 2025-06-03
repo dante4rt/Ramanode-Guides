@@ -10,12 +10,12 @@ function spinner() {
   task=$1
   msg=$2
   while :; do
-    jobs %1 > /dev/null 2>&1
+    jobs %1 >/dev/null 2>&1
     [ $? = 0 ] || {
       printf "${CL}✓ ${task} Done\n"
       break
     }
-    for (( i=0; i<${#SPINNER}; i++ )); do
+    for ((i = 0; i < ${#SPINNER}; i++)); do
       sleep 0.05
       printf "${CL}${SPINNER:$i:1} ${task} ${msg}\r"
     done
@@ -24,7 +24,8 @@ function spinner() {
 
 msg="${2-InProgress}"
 task="${3-$1}"
-$1 & spinner "$task" "$msg"
+$1 &
+spinner "$task" "$msg"
 
 tput cnorm
 

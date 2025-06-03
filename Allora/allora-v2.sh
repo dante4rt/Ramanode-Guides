@@ -41,7 +41,7 @@ if ! command_exists docker || ! command_exists go || ! command_exists python3; t
     if ! command_exists docker; then
         echo "Installing Docker..."
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
         sudo apt-get update
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io
         sudo groupadd docker
@@ -59,8 +59,8 @@ if ! command_exists docker || ! command_exists go || ! command_exists python3; t
         echo "Installing Golang..."
         sudo rm -rf /usr/local/go
         curl -L https://go.dev/dl/go1.22.4.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-        echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> $HOME/.bash_profile
+        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >>$HOME/.bash_profile
+        echo 'export PATH=$PATH:$(go env GOPATH)/bin' >>$HOME/.bash_profile
         source $HOME/.bash_profile
     fi
 else
@@ -80,7 +80,7 @@ cd basic-coin-prediction-node
 echo "Enter your wallet seed phrase:"
 read -p "Address Restore Mnemonic: " addressRestoreMnemonic
 
-cat <<EOF > config.json
+cat <<EOF >config.json
 {
     "wallet": {
         "addressKeyName": "testkey",

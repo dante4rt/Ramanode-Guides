@@ -9,7 +9,7 @@ apt update && apt upgrade -y
 
 rm -rf blockmesh-cli.tar.gz target
 
-if ! command -v docker &> /dev/null; then
+if ! command -v docker &>/dev/null; then
     echo "Installing Docker..."
     apt-get install -y \
         ca-certificates \
@@ -17,13 +17,13 @@ if ! command -v docker &> /dev/null; then
         gnupg \
         lsb-release
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
     apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
 else
     echo "Docker is already installed, skipping..."
 fi
 
-if ! command -v docker-compose &> /dev/null; then
+if ! command -v docker-compose &>/dev/null; then
     echo "Installing Docker Compose..."
     curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose.tmp
     if [[ -f /usr/local/bin/docker-compose ]]; then
@@ -38,9 +38,9 @@ fi
 mkdir -p target/release
 
 echo "Downloading and extracting BlockMesh CLI..."
-curl -s https://api.github.com/repos/block-mesh/block-mesh-monorepo/releases/latest \
-| grep -oP '"browser_download_url": "\K(.*blockmesh-cli-x86_64-unknown-linux-gnu.tar.gz)' \
-| xargs curl -L -o blockmesh-cli.tar.gz
+curl -s https://api.github.com/repos/block-mesh/block-mesh-monorepo/releases/latest |
+    grep -oP '"browser_download_url": "\K(.*blockmesh-cli-x86_64-unknown-linux-gnu.tar.gz)' |
+    xargs curl -L -o blockmesh-cli.tar.gz
 tar -xzf blockmesh-cli.tar.gz --strip-components=3 -C target/release
 
 if [[ ! -f target/release/blockmesh-cli ]]; then

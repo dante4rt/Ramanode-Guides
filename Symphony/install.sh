@@ -23,13 +23,13 @@ if [ "$choice" -eq 1 ]; then
   echo "Configuring Moniker..."
   export MONIKER="$MONIKER"
 
-  if command -v go &> /dev/null; then
+  if command -v go &>/dev/null; then
     echo "Go is already installed, skipping installation."
   else
     echo "Installing Go..."
     sudo rm -rf /usr/local/go
     curl -Ls https://go.dev/dl/go1.21.11.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-    sudo tee /etc/profile.d/golang.sh > /dev/null << 'EOF'
+    sudo tee /etc/profile.d/golang.sh >/dev/null <<'EOF'
     export PATH=$PATH:/usr/local/go/bin
 EOF
     echo 'export PATH=$PATH:$HOME/go/bin' | tee -a $HOME/.profile
@@ -54,7 +54,7 @@ EOF
   echo "Installing Cosmovisor and creating daemon service..."
   go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 
-  sudo tee /etc/systemd/system/symphony.service > /dev/null << EOF
+  sudo tee /etc/systemd/system/symphony.service >/dev/null <<EOF
 [Unit]
 Description=symphony node service
 After=network-online.target
@@ -111,23 +111,23 @@ elif [ "$choice" -eq 2 ]; then
 
   echo "Creating validator..."
   symphonyd tx staking create-validator \
-  --amount 10000note \
-  --pubkey $(symphonyd tendermint show-validator) \
-  --moniker "$MONIKER" \
-  --identity "$KEYBASE" \
-  --details "$DETAILS" \
-  --website "$WEBSITE" \
-  --security-contact "$EMAIL" \
-  --chain-id symphony-testnet-3 \
-  --commission-rate 0.05 \
-  --commission-max-rate 0.20 \
-  --commission-max-change-rate 0.01 \
-  --min-self-delegation 1 \
-  --from "$WALLET_NAME" \
-  --gas-adjustment 1.4 \
-  --gas auto \
-  --fees 800note \
-  -y
+    --amount 10000note \
+    --pubkey $(symphonyd tendermint show-validator) \
+    --moniker "$MONIKER" \
+    --identity "$KEYBASE" \
+    --details "$DETAILS" \
+    --website "$WEBSITE" \
+    --security-contact "$EMAIL" \
+    --chain-id symphony-testnet-3 \
+    --commission-rate 0.05 \
+    --commission-max-rate 0.20 \
+    --commission-max-change-rate 0.01 \
+    --min-self-delegation 1 \
+    --from "$WALLET_NAME" \
+    --gas-adjustment 1.4 \
+    --gas auto \
+    --fees 800note \
+    -y
 
   echo "Validator has been created!"
   echo "Check your validator here: https://testnet.ping.pub/symphony/"

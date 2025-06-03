@@ -22,13 +22,13 @@ load_rust() {
 
 install_dependencies() {
     echo "Installing system dependencies (build tools, OpenSSL, pkg-config)..."
-    if command -v apt &> /dev/null; then
+    if command -v apt &>/dev/null; then
         sudo apt update && sudo apt install -y build-essential libssl-dev curl pkg-config
-    elif command -v yum &> /dev/null; then
+    elif command -v yum &>/dev/null; then
         sudo yum groupinstall 'Development Tools' && sudo yum install -y openssl-devel curl pkg-config
-    elif command -v dnf &> /dev/null; then
+    elif command -v dnf &>/dev/null; then
         sudo dnf groupinstall 'Development Tools' && sudo dnf install -y openssl-devel curl pkg-config
-    elif command -v pacman &> /dev/null; then
+    elif command -v pacman &>/dev/null; then
         sudo pacman -Syu base-devel openssl curl pkg-config
     else
         echo "Unsupported package manager. Please install dependencies manually."
@@ -40,7 +40,7 @@ install_dependencies
 
 install_rust() {
     echo "Checking Rust installation..."
-    if command -v rustup &> /dev/null; then
+    if command -v rustup &>/dev/null; then
         echo "Rust is already installed."
         read -p "Do you want to reinstall or update Rust? (y/n): " choice
         if [[ "$choice" == "y" ]]; then
@@ -73,10 +73,10 @@ install_foundry() {
     fi
 
     if ! grep -q 'export PATH="$HOME/.foundry/bin:$PATH"' ~/.bashrc; then
-        echo 'export PATH="$HOME/.foundry/bin:$PATH"' >> ~/.bashrc
+        echo 'export PATH="$HOME/.foundry/bin:$PATH"' >>~/.bashrc
     fi
     if ! grep -q 'export PATH="$HOME/.foundry/bin:$PATH"' ~/.zshrc 2>/dev/null; then
-        echo 'export PATH="$HOME/.foundry/bin:$PATH"' >> ~/.zshrc
+        echo 'export PATH="$HOME/.foundry/bin:$PATH"' >>~/.zshrc
     fi
 
     if [ "$SHELL" = "/bin/bash" ]; then

@@ -40,7 +40,7 @@ sudo chmod +x /opt/dcdn/pipe-tool
 sudo chmod +x /opt/dcdn/dcdnd
 
 echo "Setting up DCDN Node systemd service..."
-sudo cat > /etc/systemd/system/dcdnd.service << 'EOF'
+sudo cat >/etc/systemd/system/dcdnd.service <<'EOF'
 [Unit]
 Description=DCDN Node Service
 After=network.target
@@ -88,7 +88,7 @@ sudo systemctl enable dcdnd
 sudo systemctl start dcdnd
 echo "PoP Node started successfully!"
 
-cat << 'EOF'
+cat <<'EOF'
 
 =========================================
 🎉 Installation Complete! 🎉

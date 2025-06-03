@@ -1,11 +1,11 @@
 #!/bin/bash
 
 install_foundry() {
-    if ! command -v cast &> /dev/null; then
+    if ! command -v cast &>/dev/null; then
         echo "Foundry not found. Installing Foundry..."
         curl -L https://foundry.paradigm.xyz | bash
         export PATH="$HOME/.foundry/bin:$PATH"
-        
+
         if [ -f ~/.bashrc ]; then
             source ~/.bashrc
         elif [ -f ~/.zshrc ]; then
@@ -14,7 +14,7 @@ install_foundry() {
             echo "No .bashrc or .zshrc file found"
             exit 1
         fi
-        
+
         foundryup
     else
         echo "Foundry is already installed."
@@ -41,11 +41,11 @@ CHAIN="holesky"
 create_keystore() {
     echo "Creating a new keystore using Foundry..."
     mkdir -p $KEYS_DIR
-    cast wallet new-mnemonic --words 12 > mnemonic.txt
+    cast wallet new-mnemonic --words 12 >mnemonic.txt
     cat mnemonic.txt
     read -p "Please save your mnemonic phrase and press Enter to continue..."
     PRIVATE_KEY=$(grep "Private key" mnemonic.txt | awk '{print $3}')
-    cast wallet import $KEYS_DIR/keystore0 --interactive <<< "$PRIVATE_KEY"
+    cast wallet import $KEYS_DIR/keystore0 --interactive <<<"$PRIVATE_KEY"
     echo "Keystore created at $KEYS_DIR/keystore0"
 }
 
@@ -95,22 +95,22 @@ while true; do
     read -p "Enter your choice [1-4]: " CHOICE
 
     case $CHOICE in
-        1)
-            create_keystore
-            ;;
-        2)
-            fund_batcher
-            ;;
-        3)
-            send_proof
-            ;;
-        4)
-            echo "Process completed successfully."
-            echo "Subscribe: https://t.me/HappyCuanAirdrop"
-            exit 0
-            ;;
-        *)
-            echo "Invalid choice. Please enter a number between 1 and 4."
-            ;;
+    1)
+        create_keystore
+        ;;
+    2)
+        fund_batcher
+        ;;
+    3)
+        send_proof
+        ;;
+    4)
+        echo "Process completed successfully."
+        echo "Subscribe: https://t.me/HappyCuanAirdrop"
+        exit 0
+        ;;
+    *)
+        echo "Invalid choice. Please enter a number between 1 and 4."
+        ;;
     esac
 done

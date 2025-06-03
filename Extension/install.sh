@@ -5,50 +5,50 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-if ! command -v docker &> /dev/null; then
-    echo "Installing Docker..."
-    sudo apt update -y && sudo apt upgrade -y
-    for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
-        sudo apt-get remove -y $pkg
-    done
+if ! command -v docker &>/dev/null; then
+  echo "Installing Docker..."
+  sudo apt update -y && sudo apt upgrade -y
+  for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+    sudo apt-get remove -y $pkg
+  done
 
-    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    
-    sudo apt update -y && sudo apt install -y docker-ce
-    sudo systemctl start docker
-    sudo systemctl enable docker
+  sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-    echo "Docker installed successfully."
+  sudo apt update -y && sudo apt install -y docker-ce
+  sudo systemctl start docker
+  sudo systemctl enable docker
+
+  echo "Docker installed successfully."
 else
-    echo "Docker is already installed."
+  echo "Docker is already installed."
 fi
 
-if ! command -v docker-compose &> /dev/null; then
-    echo "Installing Docker Compose..."
-    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    echo "Docker Compose installed successfully."
+if ! command -v docker-compose &>/dev/null; then
+  echo "Installing Docker Compose..."
+  sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  echo "Docker Compose installed successfully."
 else
-    echo "Docker Compose is already installed."
+  echo "Docker Compose is already installed."
 fi
 
 TIMEZONE=$(timedatectl | grep "Time zone" | awk '{print $3}')
 if [ -z "$TIMEZONE" ]; then
-    TIMEZONE="Asia/Jakarta"
+  TIMEZONE="Asia/Jakarta"
 fi
 echo "Server timezone detected: $TIMEZONE"
 
-CUSTOM_USER=$(openssl rand -hex 4)  
-PASSWORD=$(openssl rand -hex 12)    
+CUSTOM_USER=$(openssl rand -hex 4)
+PASSWORD=$(openssl rand -hex 12)
 echo "Generated username: $CUSTOM_USER"
 echo "Generated password: $PASSWORD"
 
 echo "Setting up Chromium with Docker Compose..."
 mkdir -p $HOME/chromium && cd $HOME/chromium
 
-cat <<EOF > docker-compose.yaml
+cat <<EOF >docker-compose.yaml
 ---
 services:
   chromium:
@@ -74,8 +74,8 @@ services:
 EOF
 
 if [ ! -f "docker-compose.yaml" ]; then
-    echo "Failed to create docker-compose.yaml. Exiting..."
-    exit 1
+  echo "Failed to create docker-compose.yaml. Exiting..."
+  exit 1
 fi
 
 echo "Running Chromium container..."

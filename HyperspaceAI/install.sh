@@ -17,7 +17,7 @@ while true; do
 
     if ! grep -q "Failed to parse version from release data." /root/hyperspace_install.log; then
         echo "✅ HyperSpace CLI installed successfully!"
-    break
+        break
     else
         echo "❌ Installation failed. Retrying in 10 seconds..."
         sleep 5
@@ -25,7 +25,7 @@ while true; do
 done
 
 echo "🚀 Installing AIOS to the path..."
-echo 'export PATH=$PATH:$HOME/.aios' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/.aios' >>~/.bashrc
 export PATH=$PATH:$HOME/.aios
 source ~/.bashrc
 

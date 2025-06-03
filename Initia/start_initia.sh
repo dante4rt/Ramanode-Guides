@@ -9,7 +9,7 @@ echo "Updating and installing required packages..."
 sudo apt update && sudo apt upgrade -y
 sudo apt install clang pkg-config libssl-dev wget htop tmux build-essential make lz4 gcc unzip -y
 
-if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}' | cut -d. -f2) -lt 19 ]]; then
+if ! command -v go &>/dev/null || [[ $(go version | awk '{print $3}' | cut -d. -f2) -lt 19 ]]; then
     echo "Go version 1.19 or above is required. Installing the latest version..."
     cd $HOME
     sudo rm -rf /usr/local/go
@@ -20,24 +20,24 @@ if ! command -v go &> /dev/null || [[ $(go version | awk '{print $3}' | cut -d. 
     source $HOME/.profile
 fi
 
-if ! command -v go &> /dev/null; then
+if ! command -v go &>/dev/null; then
     echo "Failed to install Go. Exiting..."
     exit 1
 fi
 
 echo "Go version: $(go version)"
 
-if ! command -v git &> /dev/null; then
+if ! command -v git &>/dev/null; then
     echo "Git is not installed. Installing..."
     sudo apt install -y git
 fi
 
-if ! command -v curl &> /dev/null; then
+if ! command -v curl &>/dev/null; then
     echo "curl is not installed. Installing..."
     sudo apt install -y curl
 fi
 
-if ! command -v jq &> /dev/null; then
+if ! command -v jq &>/dev/null; then
     echo "jq is not installed. Installing..."
     sudo apt install -y jq
 fi
@@ -58,9 +58,9 @@ cp genesis.json ~/.initia/config/genesis.json
 sed -i -e 's/external_address = \"\"/external_address = \"'$(curl httpbin.org/ip | jq -r .origin)':26656\"/g' ~/.initia/config/config.toml
 sed -i -e "s|^minimum-gas-prices *=.*|minimum-gas-prices = \"0.15uinit,0.01uusdc\"|" ~/.initia/config/app.toml
 
-curl -Ls https://ss-t.initia.nodestake.org/addrbook.json > ~/.initia/config/addrbook.json
+curl -Ls https://ss-t.initia.nodestake.org/addrbook.json >~/.initia/config/addrbook.json
 
-sudo tee /etc/systemd/system/initiad.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/initiad.service >/dev/null <<EOF
 [Unit]
 Description=Initia Daemon
 

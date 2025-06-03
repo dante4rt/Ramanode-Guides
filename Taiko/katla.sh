@@ -31,13 +31,16 @@ foundryup
 ./loader.sh "sleep 5" "..." "Download Binaries"
 
 forge init hello_foundry --force
-cd hello_foundry || { echo "Failed to enter directory hello_foundry"; exit 1; }
+cd hello_foundry || {
+    echo "Failed to enter directory hello_foundry"
+    exit 1
+}
 forge install foundry-rs/forge-std --no-commit
 ./loader.sh "sleep 7" "..." "Install & Initialize"
 
 forge create src/Counter.sol:Counter \
-  --rpc-url https://rpc.katla.taiko.xyz \
-  --private-key "$PRIVATE_KEY"
+    --rpc-url https://rpc.katla.taiko.xyz \
+    --private-key "$PRIVATE_KEY"
 
 echo " "
 echo " "

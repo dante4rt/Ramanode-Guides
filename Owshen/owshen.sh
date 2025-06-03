@@ -16,7 +16,7 @@ sleep 2
 echo "Installing Node.js, npm, and FUSE..."
 sudo apt update && sudo apt install nodejs npm libfuse2 fuse -y
 sudo modprobe fuse
-sudo groupadd fuse 2>/dev/null 
+sudo groupadd fuse 2>/dev/null
 user="$(whoami)"
 sudo usermod -a -G fuse "$user"
 echo "Node.js, npm, and FUSE installed."

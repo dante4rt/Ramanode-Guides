@@ -7,8 +7,7 @@ sleep 2
 
 sudo apt update && sudo apt upgrade -y
 
-if ! command -v screen &> /dev/null
-then
+if ! command -v screen &>/dev/null; then
     echo "Installing screen..."
     sudo apt install screen -y
 fi
@@ -32,5 +31,5 @@ PLOT_SIZE=${PLOT_SIZE:-10GB}
 mkdir -p $HOME/hca-autonomys/farmer-db
 
 ./subspace-farmer-ubuntu-x86_64-skylake-gemini-3h-2024-sep-03 farm \
-  --reward-address "$WALLET_ADDRESS" \
-  path="$HOME/hca-autonomys/farmer-db",size="$PLOT_SIZE"
+    --reward-address "$WALLET_ADDRESS" \
+    path="$HOME/hca-autonomys/farmer-db",size="$PLOT_SIZE"

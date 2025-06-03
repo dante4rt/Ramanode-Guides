@@ -5,7 +5,7 @@ wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guid
 curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
 sleep 2
 
-sudo tee /etc/systemd/system/avail.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/avail.service >/dev/null <<EOF
 [Unit]
 Description=Avail Light Client
 After=network.target

@@ -14,7 +14,7 @@ if [ -z "$NODE_PATH" ]; then
 fi
 
 # Check if starkli is installed by checking its version
-if ! $STARKLI_PATH --version &> /dev/null; then
+if ! $STARKLI_PATH --version &>/dev/null; then
     echo "starkli not found. Installing..."
     curl https://get.starkli.sh | sh
     # Source the Starkli environment variables
@@ -66,7 +66,7 @@ if [ $? -eq 0 ]; then
     # Use the extracted transaction_hash in the next command
     if [ ! -z "$transaction_hash" ]; then
         echo "Deploy command successful. Transaction hash: $transaction_hash"
-        
+
         # $($NODE_PATH scripts/get_transaction.js $transaction_hash)
     else
         echo "Failed to extract transaction hash."
