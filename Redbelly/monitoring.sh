@@ -81,5 +81,5 @@ build_report() {
 while true; do
   message=$(build_report)
   send_telegram_message "$message"
-  sleep 60
+  sleep 3600 # 1 hour
 done
