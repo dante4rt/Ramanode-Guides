@@ -63,18 +63,31 @@ build_report() {
   cpu_load=$(get_cpu_load)
   ram_stats=$(get_ram_usage)
   disk_stats=$(get_disk_usage)
+  uptime=$(uptime -p)
+  hostname=$(hostname)
+
+  cpu_status="🟢 Normal"
+  load1min=$(echo "$cpu_load" | awk -F',' '{print $1 + 0}')
+  [ "$(echo "$load1min > 1.5" | bc)" -eq 1 ] && cpu_status="🟡 High" || true
+
+  disk_warn=""
+  usage_percent=$(df / | awk 'NR==2 {gsub(/%/, "", $5); print $5}')
+  [ "$usage_percent" -ge 80 ] && disk_warn=" ⚠️ <b>Disk Almost Full!</b>" || true
 
   echo "<b>📡 Ramanode – Redbelly Node Monitor 📡</b>%0A""\
+  %0A""\
+<b>🖥 Host:</b> $hostname%0A""\
 <b>🕓 Time:</b> $timestamp%0A""\
 <b>📦 Local Block:</b> $local_block%0A""\
 <b>🌍 Network Block:</b> $net_block%0A""\
 <b>📉 Lag:</b> $diff blocks%0A""\
 <b>📌 Status:</b> $status%0A""\
 %0A""\
-<b>🖥 System Health</b>%0A""\
-<b>💡 CPU Load:</b> $cpu_load%0A""\
+<b>🔧 System Info</b>%0A""\
+<b>💡 CPU Load:</b> $cpu_load ($cpu_status)%0A""\
 <b>🧠 RAM:</b> $ram_stats%0A""\
-<b>💾 Disk:</b> $disk_stats"
+<b>💾 Disk:</b> $disk_stats$disk_warn%0A""\
+<b>⏱ Uptime:</b> $uptime"
 }
 
 ### === MAIN LOOP === ###
