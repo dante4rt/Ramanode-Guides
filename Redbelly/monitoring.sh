@@ -9,10 +9,10 @@ RPC_URL="https://governors.mainnet.redbelly.network"
 
 ### === FUNCTIONS === ###
 get_local_block() {
-  grep -oE '"number": "0x[0-9a-fA-F]+"' "$LOG_FILE" |
-    tail -n 1 |
-    grep -oE '0x[0-9a-fA-F]+' |
-    xargs -I {} printf "%d\n" {}
+  tail -n 1000 "$LOG_FILE" |
+    grep -a '"number"' |
+    sed -E 's/.*"number": ([0-9]+).*/\1/' |
+    tail -n 1
 }
 
 get_network_block() {
