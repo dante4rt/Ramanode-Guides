@@ -10,9 +10,10 @@ RPC_URL="https://governors.mainnet.redbelly.network"
 ### === FUNCTIONS === ###
 get_local_block() {
   tail -n 1000 "$LOG_FILE" |
-    grep -a '"number"' |
-    sed -E 's/.*"number": ([0-9]+).*/\1/' |
-    tail -n 1
+    grep '"number"' |
+    grep -oE '"number": "[0-9]+"' |
+    tail -n 1 |
+    grep -oE '[0-9]+'
 }
 
 get_network_block() {
