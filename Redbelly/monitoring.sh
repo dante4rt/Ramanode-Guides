@@ -50,7 +50,7 @@ build_report() {
   [ -z "$local_block" ] && local_block="N/A"
   [ -z "$net_block" ] && net_block="N/A"
 
-  if [[ "$local_block" != "N/A" && "$net_block" != "N/A" ]]; then
+  if [[ "$local_block" =~ ^[0-9]+$ && "$net_block" =~ ^[0-9]+$ ]]; then
     diff=$((net_block - local_block))
     [ "$diff" -lt 0 ] && diff=$((local_block - net_block))
     status=$([[ "$diff" -le 1 ]] && echo "✅ <b>Synced</b>" || echo "❌ <b>Out of Sync</b>")
