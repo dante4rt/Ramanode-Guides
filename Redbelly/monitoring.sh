@@ -10,7 +10,7 @@ RPC_URL="https://governors.mainnet.redbelly.network"
 ### === FUNCTIONS === ###
 get_local_block() {
   local block_number
-  block_number=$(tail -n 100 "$LOG_FILE" | grep -oP '"number":\s*"\K[0-9]+' | tail -n 1)
+  block_number=$(tail -n 1000 "$LOG_FILE" | grep -a -oP '"number":\s*"\K[0-9]+' | tail -n 1)
 
   if [[ -z "$block_number" ]]; then
     echo "N/A"
