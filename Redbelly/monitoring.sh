@@ -9,11 +9,14 @@ RPC_URL="https://governors.mainnet.redbelly.network"
 
 ### === FUNCTIONS === ###
 get_local_block() {
-  tail -n 1000 "$LOG_FILE" |
-    grep '"number"' |
-    grep -oE '"number": "[0-9]+"' |
-    tail -n 1 |
-    grep -oE '[0-9]+'
+  local block_number
+  block_number=$(tail -n 100 "$LOG_FILE" | grep -oP '"number":\s*"\K[0-9]+' | tail -n 1)
+
+  if [[ -z "$block_number" ]]; then
+    echo "N/A"
+  else
+    echo "$block_number"
+  fi
 }
 
 get_network_block() {
@@ -75,20 +78,25 @@ build_report() {
   usage_percent=$(df / | awk 'NR==2 {gsub(/%/, "", $5); print $5}')
   [ "$usage_percent" -ge 80 ] && disk_warn=" ⚠️ <b>Disk Almost Full!</b>" || true
 
-  echo "<b>📡 Ramanode – Redbelly Node Monitor 📡</b>%0A""\
-  %0A""\
-<b>🖥 Host:</b> $hostname%0A""\
-<b>🕓 Time:</b> $timestamp%0A""\
-<b>📦 Local Block:</b> $local_block%0A""\
-<b>🌍 Network Block:</b> $net_block%0A""\
-<b>📉 Lag:</b> $diff blocks%0A""\
-<b>📌 Status:</b> $status%0A""\
-%0A""\
-<b>🔧 System Info</b>%0A""\
-<b>💡 CPU Load:</b> $cpu_load ($cpu_status)%0A""\
-<b>🧠 RAM:</b> $ram_stats%0A""\
-<b>💾 Disk:</b> $disk_stats$disk_warn%0A""\
-<b>⏱ Uptime:</b> $uptime"
+  echo "<b>📡 Ramanode – Redbelly Node Monitor 📡</b>%0A\
+  %0A\
+<b>🖥 Host:</b> $hostname%0A\
+<b>🕓 Time:</b> $timestamp%0A\
+<b>📦 Local Block:</b> $local_block%0A\
+<b>🌍 Network Block:</b> $net_block%0A\
+<b>📉 Lag:</b> $diff blocks%0A\
+<b>📌 Status:</b> $status%0A\
+%0A\
+<b>🔧 System Health</b>%0A\
+<b>💡 CPU Load:</b> $cpu_load ($cpu_status)%0A\
+<b>🧠 RAM Usage:</b> $ram_stats%0A\
+<b>💾 Disk Usage:</b> $disk_stats$disk_warn%0A\
+<b>⏱ Uptime:</b> $uptime%0A\
+%0A\
+<b>🛠 System Warnings</b>%0A\
+<b>⚠️ Disk Usage:</b> $usage_percent% (Warning if > 80%)%0A\
+<b>🔋 CPU Load:</b> $load1min% (Warning if > 1.5)%0A\
+"
 }
 
 ### === MAIN LOOP === ###
